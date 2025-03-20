@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import GuardianContactModal from '@/components/modals/GuardianContactModal';
 import AddPersonModal from '@/components/modals/AddPersonModal';
 import { useAddPerson } from '@/hooks/useAddPerson';
@@ -12,6 +12,8 @@ interface ModalsContainerProps {
   onSubmitForm: () => void;
   isAddPersonDialogOpen?: boolean;
   setIsAddPersonDialogOpen?: (open: boolean) => void;
+  isGuardianDialogOpen?: boolean;
+  setIsGuardianDialogOpen?: (open: boolean) => void;
 }
 
 const ModalsContainer = ({
@@ -21,14 +23,19 @@ const ModalsContainer = ({
   onPersonAdded,
   onSubmitForm,
   isAddPersonDialogOpen,
-  setIsAddPersonDialogOpen
+  setIsAddPersonDialogOpen,
+  isGuardianDialogOpen,
+  setIsGuardianDialogOpen
 }: ModalsContainerProps) => {
-  const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
+  // Use either the prop state or local state for add person dialog
   const [localAddPersonDialogOpen, setLocalAddPersonDialogOpen] = useState(false);
+  const [localGuardianDialogOpen, setLocalGuardianDialogOpen] = useState(false);
   
-  // Use either the prop state or local state
   const addPersonDialogOpen = isAddPersonDialogOpen !== undefined ? isAddPersonDialogOpen : localAddPersonDialogOpen;
   const setAddPersonDialogOpen = setIsAddPersonDialogOpen || setLocalAddPersonDialogOpen;
+  
+  const guardianDialogOpen = isGuardianDialogOpen !== undefined ? isGuardianDialogOpen : localGuardianDialogOpen;
+  const setGuardianDialogOpen = setIsGuardianDialogOpen || setLocalGuardianDialogOpen;
 
   const handlePersonAdded = useCallback((fullName: string) => {
     console.log("Person added in ModalsContainer:", fullName);
@@ -40,10 +47,7 @@ const ModalsContainer = ({
     
     // Call the parent callback to update any active incident
     onPersonAdded(fullName);
-    
-    // Close the dialog
-    setAddPersonDialogOpen(false);
-  }, [childrenNames, setChildrenNames, onPersonAdded, setAddPersonDialogOpen]);
+  }, [childrenNames, setChildrenNames, onPersonAdded]);
 
   const {
     firstName,
@@ -62,27 +66,18 @@ const ModalsContainer = ({
     resetForm
   } = useAddPerson({ onPersonAdded: handlePersonAdded });
 
-  const handleOpenAddPersonDialog = useCallback(() => {
-    resetForm();
-    setAddPersonDialogOpen(true);
-  }, [resetForm, setAddPersonDialogOpen]);
-
-  const handleOpenGuardianDialog = useCallback(() => {
-    setIsGuardianDialogOpen(true);
-  }, []);
-
   const handleSubmitForm = useCallback(() => {
     console.log("Submit form called in ModalsContainer");
     onSubmitForm();
-    setIsGuardianDialogOpen(false);
-  }, [onSubmitForm]);
+    setGuardianDialogOpen(false);
+  }, [onSubmitForm, setGuardianDialogOpen]);
 
   return (
     <>
       {/* Guardian Contact Modal */}
       <GuardianContactModal 
-        isOpen={isGuardianDialogOpen} 
-        onOpenChange={setIsGuardianDialogOpen} 
+        isOpen={guardianDialogOpen} 
+        onOpenChange={setGuardianDialogOpen} 
         people={people} 
         onSubmit={handleSubmitForm}
       />
@@ -108,6 +103,9 @@ const ModalsContainer = ({
     </>
   );
 };
+
+// Add missing import
+import { useState } from 'react';
 
 // Export the component
 export { ModalsContainer };

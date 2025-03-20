@@ -26,6 +26,7 @@ const Index = () => {
   } = useIncidentForm();
 
   const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
+  const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
 
   // Function to handle adding a person with updating an incident
   const handlePersonAdded = useCallback((fullName: string) => {
@@ -49,9 +50,10 @@ const Index = () => {
   }, [incidents, setIncidents]);
 
   const handleSubmit = useCallback(() => {
-    console.log("Submit button clicked");
-    submitForm();
-  }, [submitForm]);
+    console.log("Submit button clicked, opening guardian dialog");
+    // Instead of directly submitting the form, open the guardian dialog
+    setIsGuardianDialogOpen(true);
+  }, []);
 
   return (
     <>
@@ -85,6 +87,8 @@ const Index = () => {
         onSubmitForm={submitForm}
         isAddPersonDialogOpen={isAddPersonDialogOpen}
         setIsAddPersonDialogOpen={setIsAddPersonDialogOpen}
+        isGuardianDialogOpen={isGuardianDialogOpen}
+        setIsGuardianDialogOpen={setIsGuardianDialogOpen}
       />
     </>
   );

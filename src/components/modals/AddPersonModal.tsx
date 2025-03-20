@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface GenderOption {
@@ -65,11 +65,10 @@ const AddPersonModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] p-8">
-        <DialogTitle className="sr-only">Lägg till elev</DialogTitle>
+        <DialogTitle className="text-3xl font-medium mb-6">Lägg till elev</DialogTitle>
+        <DialogDescription className="sr-only">Formulär för att lägga till en ny elev</DialogDescription>
         
         <div className="py-4">
-          <h2 className="text-3xl font-medium mb-6">Lägg till elev</h2>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
               <Label htmlFor="firstname" className="text-base">Förnamn</Label>
@@ -141,11 +140,21 @@ const AddPersonModal = ({
           </div>
           
           <div className="flex justify-end gap-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="min-w-[120px] text-base">
+            <Button 
+              variant="outline" 
+              onClick={() => onOpenChange(false)} 
+              className="min-w-[120px] text-base"
+              type="button"
+            >
               Avbryt
             </Button>
             <Button 
-              onClick={onAddPerson}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("Add person button clicked");
+                onAddPerson();
+              }}
               className="min-w-[120px] text-base"
               type="button"
             >
