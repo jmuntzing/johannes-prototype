@@ -64,7 +64,7 @@ const AddPersonModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] p-8">
         <DialogTitle className="sr-only">Lägg till elev</DialogTitle>
         
         <div className="py-4">
@@ -79,6 +79,7 @@ const AddPersonModal = ({
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Förnamn"
                 ref={firstNameInputRef}
+                className="text-base"
               />
             </div>
             
@@ -89,6 +90,7 @@ const AddPersonModal = ({
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Efternamn"
+                className="text-base"
               />
             </div>
           </div>
@@ -101,18 +103,19 @@ const AddPersonModal = ({
                 value={personalNumber}
                 onChange={(e) => setPersonalNumber(e.target.value)}
                 placeholder="Personnummer"
+                className="text-base"
               />
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="gender" className="text-base">Kön</Label>
               <Select value={gender} onValueChange={setGender}>
-                <SelectTrigger id="gender">
+                <SelectTrigger id="gender" className="text-base">
                   <SelectValue placeholder="Ange kön..." />
                 </SelectTrigger>
                 <SelectContent>
                   {genderOptions.map(option => (
-                    <SelectItem key={option.value} value={option.value}>
+                    <SelectItem key={option.value} value={option.value} className="text-base">
                       {option.label}
                     </SelectItem>
                   ))}
@@ -124,12 +127,12 @@ const AddPersonModal = ({
           <div className="space-y-2 mb-8">
             <Label htmlFor="class" className="text-base">Klass/grupp</Label>
             <Select value={classGroup} onValueChange={setClassGroup}>
-              <SelectTrigger id="class">
+              <SelectTrigger id="class" className="text-base">
                 <SelectValue placeholder="Ange klass/grupp..." />
               </SelectTrigger>
               <SelectContent>
                 {classOptions.map(option => (
-                  <SelectItem key={option.value} value={option.value}>
+                  <SelectItem key={option.value} value={option.value} className="text-base">
                     {option.label}
                   </SelectItem>
                 ))}
@@ -138,10 +141,10 @@ const AddPersonModal = ({
           </div>
           
           <div className="flex justify-end gap-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="min-w-[120px]">
+            <Button variant="outline" onClick={() => onOpenChange(false)} className="min-w-[120px] text-base">
               Avbryt
             </Button>
-            <Button onClick={onAddPerson} className="min-w-[120px]">
+            <Button onClick={onAddPerson} className="min-w-[120px] text-base">
               Lägg till
             </Button>
           </div>

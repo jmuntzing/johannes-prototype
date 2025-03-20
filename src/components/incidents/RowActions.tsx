@@ -20,28 +20,34 @@ const RowActions = ({
       {showSwap && (
         <Button 
           variant="outline" 
-          size="icon"
+          size="sm"
           onClick={onSwap}
           title="Byt roller"
+          className="h-8"
         >
-          <RotateCw className="h-4 w-4" />
+          <RotateCw className="h-3.5 w-3.5 mr-1" />
+          <span className="text-xs">Byt roller</span>
         </Button>
       )}
       <Button 
         variant="outline" 
-        size="icon"
+        size="sm"
         onClick={onDuplicate}
         title="Skapa kopia"
+        className="h-8"
       >
-        <Copy className="h-4 w-4" />
+        <Copy className="h-3.5 w-3.5 mr-1" />
+        <span className="text-xs">Kopiera</span>
       </Button>
       <Button 
         variant="outline" 
-        size="icon"
+        size="sm"
         onClick={onRemove}
         title="Ta bort"
+        className="h-8"
       >
-        <Trash2 className="h-4 w-4" />
+        <Trash2 className="h-3.5 w-3.5 mr-1" />
+        <span className="text-xs">Radera</span>
       </Button>
     </div>
   );
