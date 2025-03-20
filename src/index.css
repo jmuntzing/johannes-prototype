@@ -105,3 +105,14 @@
     font-size: 1.05rem;
   }
 }
+
+/* Right-align calendar icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 10px;
+}
+
+input[type="date"] {
+  position: relative;
+  padding-right: 30px;
+}
