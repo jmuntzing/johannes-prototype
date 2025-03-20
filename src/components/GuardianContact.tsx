@@ -43,19 +43,19 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
   ];
 
   return (
-    <div className="my-6 border rounded-md p-6 bg-gray-100">
+    <div className="my-4 rounded-md p-6 bg-gray-50">
       {uniquePeople.length === 0 ? (
         <div className="text-center text-muted-foreground py-4">
           Ingen person har valts ännu. Lägg till personer i incidentlistan först.
         </div>
       ) : (
-        <div className="space-y-5">
-          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-2">
+        <div className="space-y-4">
+          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-1">
             <div className="text-sm font-medium">Elev</div>
             <div className="text-sm font-medium">Vårdnadshavare informerad?</div>
             <div className="text-sm font-medium">Kommentar</div>
           </div>
-          <Separator className="mb-4" />
+          <Separator className="mb-2" />
           {uniquePeople.map(person => (
             <div key={person} className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 items-center">
               <div className="font-medium">
@@ -96,7 +96,7 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
                   placeholder="Kommentar..."
                   value={contactInfo[person]?.comment || ''}
                   onChange={(e) => updateContactInfo(person, 'comment', e.target.value)}
-                  className="h-10 py-2 min-h-0 resize-none"
+                  className="h-10 py-2 min-h-0 resize-none overflow-hidden"
                 />
               </div>
             </div>

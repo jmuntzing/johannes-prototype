@@ -1,5 +1,5 @@
 
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import GuardianContactModal from '@/components/modals/GuardianContactModal';
 import AddPersonModal from '@/components/modals/AddPersonModal';
 import { useAddPerson } from '@/hooks/useAddPerson';
@@ -37,21 +37,6 @@ const ModalsContainer = ({
   const guardianDialogOpen = isGuardianDialogOpen !== undefined ? isGuardianDialogOpen : localGuardianDialogOpen;
   const setGuardianDialogOpen = setIsGuardianDialogOpen || setLocalGuardianDialogOpen;
 
-  const handlePersonAdded = useCallback((fullName: string) => {
-    console.log("Person added in ModalsContainer:", fullName);
-    
-    // First check if the name already exists to avoid duplicates
-    if (!childrenNames.includes(fullName)) {
-      setChildrenNames([...childrenNames, fullName]);
-    }
-    
-    // Call the parent callback to update any active incident
-    onPersonAdded(fullName);
-    
-    // Important: Reset form values after a person is added
-    resetForm();
-  }, [childrenNames, setChildrenNames, onPersonAdded]);
-
   const {
     firstName,
     setFirstName,
@@ -68,6 +53,24 @@ const ModalsContainer = ({
     handleAddPerson,
     resetForm
   } = useAddPerson({ onPersonAdded: handlePersonAdded });
+
+  const handlePersonAdded = useCallback((fullName: string) => {
+    console.log("Person added in ModalsContainer:", fullName);
+    
+    // First check if the name already exists to avoid duplicates
+    if (!childrenNames.includes(fullName)) {
+      setChildrenNames([...childrenNames, fullName]);
+    }
+    
+    // Call the parent callback to update any active incident
+    onPersonAdded(fullName);
+    
+    // Important: Reset form values after a person is added
+    resetForm();
+    
+    // Close the dialog
+    setAddPersonDialogOpen(false);
+  }, [childrenNames, setChildrenNames, onPersonAdded, resetForm, setAddPersonDialogOpen]);
 
   const handleSubmitForm = useCallback(() => {
     console.log("Submit form called in ModalsContainer");
