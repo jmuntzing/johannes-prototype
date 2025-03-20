@@ -124,61 +124,59 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        <div className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl">På vilken plats hände det?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Välj plats..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {locationOptions.map(option => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl">På vilken plats hände det?</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Select value={location} onValueChange={setLocation}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Välj plats..." />
+              </SelectTrigger>
+              <SelectContent>
+                {locationOptions.map(option => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl">Vilken dag hände det?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Input 
-                type="date" 
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="w-full"
-              />
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl">Vilken dag hände det?</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input 
+              type="date" 
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full"
+            />
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl">Finns det t.ex. foton eller film från händelsen?</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center w-full">
-                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <Upload className="w-8 h-8 mb-3 text-gray-500 dark:text-gray-400" />
-                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Klicka för att ladda upp</span> eller dra och släpp
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
-                  </div>
-                  <input id="dropzone-file" type="file" className="hidden" />
-                </label>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-xl">Finns det t.ex. foton eller film från händelsen?</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center w-full">
+              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Upload className="w-8 h-8 mb-3 text-gray-500 dark:text-gray-400" />
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Klicka för att ladda upp</span> eller dra och släpp
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
+                </div>
+                <input id="dropzone-file" type="file" className="hidden" />
+              </label>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <Card className="mb-8">
@@ -274,3 +272,4 @@ const Index = () => {
 };
 
 export default Index;
+
