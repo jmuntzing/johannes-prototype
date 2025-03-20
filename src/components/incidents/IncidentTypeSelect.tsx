@@ -29,7 +29,7 @@ const IncidentTypeSelect = ({
       value={value} 
       onValueChange={onChange}
     >
-      <SelectTrigger className="w-full md:w-[300px]">
+      <SelectTrigger className="w-full md:w-[300px] text-base">
         {renderTriggerContent()}
       </SelectTrigger>
       <SelectContent className="max-h-[300px]">
