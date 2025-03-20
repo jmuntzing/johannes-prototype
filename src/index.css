@@ -127,3 +127,13 @@ input[type="date"] {
   background-color: white !important;
   z-index: 50 !important;
 }
+
+/* Fix for Select dropdown background and z-index */
+[data-radix-popper-content-wrapper] {
+  z-index: 100 !important;
+}
+
+[data-radix-select-content] {
+  background: white !important;
+  z-index: 100 !important;
+}

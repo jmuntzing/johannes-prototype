@@ -44,7 +44,7 @@ const IncidentForm = memo(({
   onSubmit
 }: IncidentFormProps) => {
   return (
-    <div className="container mx-auto py-20 px-4 max-w-6xl">
+    <div className="container mx-auto py-12 px-4 max-w-6xl">
       <h1 className="text-3xl font-medium mb-8">Anmäl incident</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-5 gap-14 mb-8">

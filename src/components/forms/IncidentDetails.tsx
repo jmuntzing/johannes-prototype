@@ -24,9 +24,9 @@ const IncidentDetails = ({
   locationOptions
 }: IncidentDetailsProps) => {
   return (
-    <div className="md:col-span-2 space-y-10">
+    <div className="md:col-span-2 space-y-7">
       <div>
-        <h3 className="text-xl font-semibold mb-2">På vilken plats hände det?</h3>
+        <h3 className="text-[19px] font-semibold mb-2">På vilken plats hände det?</h3>
         <Select value={location} onValueChange={setLocation}>
           <SelectTrigger className="w-full text-base">
             <SelectValue placeholder="Välj plats..." />
@@ -42,7 +42,7 @@ const IncidentDetails = ({
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold mb-2">Vilken dag hände det?</h3>
+        <h3 className="text-[19px] font-semibold mb-2">Vilken dag hände det?</h3>
         <Input 
           type="date" 
           value={date}
@@ -52,7 +52,7 @@ const IncidentDetails = ({
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold mb-2">Finns det t.ex. foton eller film från händelsen?</h3>
+        <h3 className="text-[19px] font-semibold mb-2">Finns det t.ex. foton eller film från händelsen?</h3>
         <label htmlFor="dropzone-file" className="flex flex-row items-center justify-start w-full h-10 border border-dashed rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600">
           <Upload className="h-4 w-4 ml-3 mr-2 text-gray-500 dark:text-gray-400" />
           <span className="text-base text-gray-500 dark:text-gray-400">Ladda upp filer</span>
