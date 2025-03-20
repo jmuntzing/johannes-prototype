@@ -1,267 +1,83 @@
 
-import { useState, useCallback, memo, useMemo } from 'react';
-import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
-import IncidentDescription from '@/components/forms/IncidentDescription';
-import IncidentDetails from '@/components/forms/IncidentDetails';
-import IncidentsList from '@/components/incidents/IncidentsList';
-import GuardianContactModal from '@/components/modals/GuardianContactModal';
-import AddPersonModal from '@/components/modals/AddPersonModal';
-
-const MemoizedIncidentDescription = memo(IncidentDescription);
-const MemoizedIncidentDetails = memo(IncidentDetails);
-const MemoizedIncidentsList = memo(IncidentsList);
-
-// Define a type for incidents to improve type safety
-interface Incident {
-  id: number;
-  person: string;
-  incident: string;
-  perpetrator: string;
-}
+import { useCallback, useState } from 'react';
+import { useIncidentForm } from '@/hooks/useIncidentForm';
+import IncidentForm from '@/components/forms/IncidentForm';
+import { ModalsContainer, useModalOpener } from '@/components/containers/ModalsContainer';
 
 const Index = () => {
-  const [incidents, setIncidents] = useState<Incident[]>([{
-    id: Date.now(),
-    person: '',
-    incident: '',
-    perpetrator: ''
-  }]);
-  const [incidentDescription, setIncidentDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [date, setDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  });
+  const {
+    incidents,
+    incidentDescription,
+    setIncidentDescription,
+    location,
+    setLocation,
+    date,
+    setDate,
+    childrenNames,
+    setChildrenNames,
+    locationOptions,
+    addIncident,
+    updateIncident,
+    removeIncident,
+    duplicateIncident,
+    swapRoles,
+    submitForm
+  } = useIncidentForm();
+
   const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
   const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [personalNumber, setPersonalNumber] = useState('');
-  const [gender, setGender] = useState('');
-  const [classGroup, setClassGroup] = useState('');
-  const [childrenNames, setChildrenNames] = useState([
-    "Alice Aronsson", "Axel Andersson", "Alva Lindgren", "Beata Berg", 
-    "Bertil Bäck", "Cecilia Carlsson", "Daniel Dahl", "Elsa Eriksson", 
-    "Frida Fors", "Gustav Grön", "Hugo Wallin", "Ida Isaksson", 
-    "Johan Johansson", "Karin Karlsson", "Lars Larsson", "Maja Martin", 
-    "Nils Nilsson", "Olivia Olsson", "Per Persson", "Sara Svensson"
-  ]);
 
-  // Memoize options to prevent unnecessary re-renders
-  const locationOptions = useMemo(() => [
-    { value: "aulan", label: "Aulan" },
-    { value: "fotbollsplanen", label: "Fotbollsplanen" },
-    { value: "gymnastiksalen", label: "Gymnastiksalen" },
-    { value: "lektionssal", label: "Lektionssal" },
-    { value: "matsalen", label: "Matsalen" },
-    { value: "skolgarden", label: "Skolgården" },
-    { value: "slojdsalen", label: "Slöjdsalen" },
-    { value: "uppehallsrum", label: "Uppehållsrum" }
-  ], []);
-
-  const genderOptions = useMemo(() => [
-    { value: "flicka", label: "Flicka" },
-    { value: "pojke", label: "Pojke" },
-    { value: "annat", label: "Annat" },
-    { value: "vill_ej_ange", label: "Vill ej ange" }
-  ], []);
-
-  const classOptions = useMemo(() => [
-    { value: "1A", label: "1A" }, { value: "1B", label: "1B" },
-    { value: "2A", label: "2A" }, { value: "2B", label: "2B" },
-    { value: "3A", label: "3A" }, { value: "3B", label: "3B" },
-    { value: "4A", label: "4A" }, { value: "4B", label: "4B" },
-    { value: "5A", label: "5A" }, { value: "5B", label: "5B" },
-    { value: "6A", label: "6A" }, { value: "6B", label: "6B" },
-    { value: "7A", label: "7A" }, { value: "7B", label: "7B" },
-    { value: "8A", label: "8A" }, { value: "8B", label: "8B" },
-    { value: "9A", label: "9A" }, { value: "9B", label: "9B" }
-  ], []);
-
-  const addIncident = useCallback(() => {
-    setIncidents(prevIncidents => [...prevIncidents, {
-      id: Date.now(),
-      person: '',
-      incident: '',
-      perpetrator: ''
-    }]);
-  }, []);
-
-  const updateIncident = useCallback((id: number, field: string, value: string) => {
-    setIncidents(prevIncidents => prevIncidents.map(incident => 
-      incident.id === id ? { ...incident, [field]: value } : incident
-    ));
-  }, []);
-
-  const removeIncident = useCallback((id: number) => {
-    setIncidents(prevIncidents => prevIncidents.filter(incident => incident.id !== id));
-  }, []);
-
-  const duplicateIncident = useCallback((id: number) => {
+  // Function to handle adding a person with updating an incident
+  const handlePersonAdded = useCallback((fullName: string, isEmpty: boolean) => {
+    // Find an empty slot or use the last incident
     setIncidents(prevIncidents => {
-      const incidentToDuplicate = prevIncidents.find(incident => incident.id === id);
-      if (incidentToDuplicate) {
-        return [...prevIncidents, { ...incidentToDuplicate, id: Date.now() }];
+      const activeIncidentId = isEmpty 
+        ? prevIncidents.find(inc => inc.person === '')?.id || prevIncidents[prevIncidents.length - 1].id
+        : null;
+      
+      if (activeIncidentId) {
+        return prevIncidents.map(incident => 
+          incident.id === activeIncidentId ? 
+            { ...incident, person: fullName } : incident
+        );
       }
       return prevIncidents;
     });
-  }, []);
-
-  const swapRoles = useCallback((id: number) => {
-    setIncidents(prevIncidents => prevIncidents.map(incident => {
-      if (incident.id === id) {
-        return {
-          ...incident,
-          person: incident.perpetrator,
-          perpetrator: incident.person
-        };
-      }
-      return incident;
-    }));
   }, []);
 
   const handleSubmit = useCallback(() => {
     setIsGuardianDialogOpen(true);
   }, []);
 
-  const submitForm = useCallback(() => {
-    toast({
-      title: "Anmälan har skickats in!",
-      description: "Din incidentrapport har registrerats."
-    });
-    setIsGuardianDialogOpen(false);
-  }, []);
-
-  // Optimized handleAddPerson to avoid multiple state updates
-  const handleAddPerson = useCallback(() => {
-    if (firstName.trim() && lastName.trim()) {
-      const fullName = `${firstName.trim()} ${lastName.trim()}`;
-      
-      // Batch updates to improve performance
-      // First update the children names
-      setChildrenNames(prev => {
-        // Check if name already exists to avoid duplicates
-        if (prev.includes(fullName)) {
-          return prev;
-        }
-        return [...prev, fullName];
-      });
-      
-      // Then update the incidents state in a single operation
-      setIncidents(prevIncidents => {
-        // Find an empty slot or use the last incident
-        const activeIncidentId = prevIncidents.find(inc => inc.person === '')?.id || 
-                               prevIncidents[prevIncidents.length - 1].id;
-        
-        return prevIncidents.map(incident => 
-          incident.id === activeIncidentId ? 
-            { ...incident, person: fullName } : incident
-        );
-      });
-      
-      // Close the modal and reset the form
-      resetNewPersonForm();
-      setIsAddPersonDialogOpen(false);
-      
-      // Show a toast notification
-      toast({
-        title: "Person tillagd",
-        description: `${fullName} har lagts till i listan.`
-      });
-    }
-  }, [firstName, lastName]);
-
-  const resetNewPersonForm = useCallback(() => {
-    setFirstName('');
-    setLastName('');
-    setPersonalNumber('');
-    setGender('');
-    setClassGroup('');
-  }, []);
-
-  // Improved implementation with proper debouncing
-  const handleSubmitWithDelay = useCallback(() => {
-    const button = document.querySelector('button[type="submit"]');
-    if (button) {
-      button.setAttribute('disabled', 'true');
-      setTimeout(() => {
-        button.removeAttribute('disabled');
-        handleSubmit();
-      }, 300); // Increased timeout for better reliability
-    } else {
-      handleSubmit();
-    }
-  }, [handleSubmit]);
-
   return (
-    <div className="container mx-auto py-20 px-4 max-w-6xl">
-      <h1 className="text-3xl font-medium mb-8">Anmäl incident</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-14 mb-8">
-        <MemoizedIncidentDescription 
-          incidentDescription={incidentDescription} 
-          setIncidentDescription={setIncidentDescription} 
-        />
-
-        <MemoizedIncidentDetails 
-          location={location} 
-          setLocation={setLocation} 
-          date={date} 
-          setDate={setDate} 
-          locationOptions={locationOptions} 
-        />
-      </div>
-
-      <MemoizedIncidentsList 
-        incidents={incidents} 
-        childrenNames={childrenNames} 
-        addIncident={addIncident} 
-        updateIncident={updateIncident} 
-        removeIncident={removeIncident} 
-        duplicateIncident={duplicateIncident} 
-        swapRoles={swapRoles} 
-        onAddPerson={() => setIsAddPersonDialogOpen(true)} 
+    <>
+      <IncidentForm
+        incidents={incidents}
+        incidentDescription={incidentDescription}
+        setIncidentDescription={setIncidentDescription}
+        location={location}
+        setLocation={setLocation}
+        date={date}
+        setDate={setDate}
+        locationOptions={locationOptions}
+        childrenNames={childrenNames}
+        addIncident={addIncident}
+        updateIncident={updateIncident}
+        removeIncident={removeIncident}
+        duplicateIncident={duplicateIncident}
+        swapRoles={swapRoles}
+        onOpenAddPersonDialog={() => setIsAddPersonDialogOpen(true)}
+        onSubmit={handleSubmit}
       />
 
-      <div className="flex justify-end mt-8">
-        <Button 
-          onClick={handleSubmitWithDelay} 
-          size="lg" 
-          className="text-lg py-px"
-          type="submit"
-        >
-          Slutför anmälan
-        </Button>
-      </div>
-
-      {/* Guardian Contact Modal */}
-      <GuardianContactModal 
-        isOpen={isGuardianDialogOpen} 
-        onOpenChange={setIsGuardianDialogOpen} 
-        people={incidents.map(i => [i.person, i.perpetrator]).flat().filter(p => p && p.length > 0).filter((v, i, a) => a.indexOf(v) === i)} 
-        onSubmit={submitForm} 
+      <ModalsContainer
+        people={incidents.map(i => [i.person, i.perpetrator]).flat().filter(p => p && p.length > 0).filter((v, i, a) => a.indexOf(v) === i)}
+        childrenNames={childrenNames}
+        setChildrenNames={setChildrenNames}
+        onPersonAdded={handlePersonAdded}
+        onSubmitForm={submitForm}
       />
-
-      {/* Add Person Modal */}
-      <AddPersonModal 
-        isOpen={isAddPersonDialogOpen} 
-        onOpenChange={setIsAddPersonDialogOpen} 
-        onAddPerson={handleAddPerson} 
-        firstName={firstName} 
-        setFirstName={setFirstName} 
-        lastName={lastName} 
-        setLastName={setLastName} 
-        personalNumber={personalNumber} 
-        setPersonalNumber={setPersonalNumber} 
-        gender={gender} 
-        setGender={setGender} 
-        classGroup={classGroup} 
-        setClassGroup={setClassGroup} 
-        genderOptions={genderOptions} 
-        classOptions={classOptions} 
-      />
-    </div>
+    </>
   );
 };
 
