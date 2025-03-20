@@ -1,8 +1,8 @@
 
 import { useState } from 'react';
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Check, Circle } from "lucide-react";
 
 interface GuardianContactProps {
   people: string[];
@@ -34,8 +34,15 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
   // Display at most 5 unique people, in case there are lots of duplicates in the incident list
   const uniquePeople = [...new Set(people)].slice(0, 5);
 
+  // Custom select items with icons
+  const selectOptions = [
+    { value: "ja", label: "Vårdnadshavare informerad", icon: <Check className="mr-2 h-4 w-4" /> },
+    { value: "nej", label: "Vårdnadshavare ej informerad", icon: <Circle className="mr-2 h-4 w-4" /> },
+    { value: "ingen kontakt krävs", label: "Ingen kontakt krävs", icon: null }
+  ];
+
   return (
-    <div className="my-4 border rounded-md p-4">
+    <div className="my-4 border rounded-md p-4 bg-white">
       {uniquePeople.length === 0 ? (
         <div className="text-center text-muted-foreground py-4">
           Ingen person har valts ännu. Lägg till personer i incidentlistan först.
@@ -58,12 +65,27 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
                   onValueChange={(value) => updateContactInfo(person, 'contacted', value)}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Välj..." />
+                    {contactInfo[person]?.contacted ? (
+                      <div className="flex items-center">
+                        {contactInfo[person]?.contacted === "ja" && <Check className="mr-2 h-4 w-4" />}
+                        {contactInfo[person]?.contacted === "nej" && <Circle className="mr-2 h-4 w-4" />}
+                        {contactInfo[person]?.contacted === "ja" ? "Vårdnadshavare informerad" : 
+                         contactInfo[person]?.contacted === "nej" ? "Vårdnadshavare ej informerad" : 
+                         "Ingen kontakt krävs"}
+                      </div>
+                    ) : (
+                      <SelectValue placeholder="Välj..." />
+                    )}
                   </SelectTrigger>
                   <SelectContent className="max-h-[300px]">
-                    <SelectItem value="ja">Ja, vårdnadshavare har informerats</SelectItem>
-                    <SelectItem value="nej">Nej, vårdnadshavare har inte informerats</SelectItem>
-                    <SelectItem value="ingen kontakt krävs">Ingen kontakt krävs</SelectItem>
+                    {selectOptions.map(option => (
+                      <SelectItem key={option.value} value={option.value} className="flex items-center">
+                        <div className="flex items-center">
+                          {option.icon}
+                          {option.label}
+                        </div>
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
