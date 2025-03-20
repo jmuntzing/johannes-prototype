@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -119,7 +118,7 @@ const Index = () => {
               id="vad-hande" 
               value={incidentDescription}
               onChange={(e) => setIncidentDescription(e.target.value)}
-              placeholder="T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka…""
+              placeholder='T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka..."'
               className="min-h-[250px]"
             />
           </CardContent>
