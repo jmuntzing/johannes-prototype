@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Check, Circle } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 interface GuardianContactProps {
   people: string[];
@@ -42,7 +43,7 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
   ];
 
   return (
-    <div className="my-6 border rounded-md p-6 bg-white">
+    <div className="my-6 border rounded-md p-6 bg-gray-100">
       {uniquePeople.length === 0 ? (
         <div className="text-center text-muted-foreground py-4">
           Ingen person har valts ännu. Lägg till personer i incidentlistan först.
@@ -54,6 +55,7 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
             <div className="text-sm font-medium">Vårdnadshavare informerad?</div>
             <div className="text-sm font-medium">Kommentar</div>
           </div>
+          <Separator className="mb-4" />
           {uniquePeople.map(person => (
             <div key={person} className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 items-center">
               <div className="font-medium">

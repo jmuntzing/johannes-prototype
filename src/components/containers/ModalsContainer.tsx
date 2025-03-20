@@ -1,5 +1,5 @@
 
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import GuardianContactModal from '@/components/modals/GuardianContactModal';
 import AddPersonModal from '@/components/modals/AddPersonModal';
 import { useAddPerson } from '@/hooks/useAddPerson';
@@ -47,6 +47,9 @@ const ModalsContainer = ({
     
     // Call the parent callback to update any active incident
     onPersonAdded(fullName);
+    
+    // Important: Reset form values after a person is added
+    resetForm();
   }, [childrenNames, setChildrenNames, onPersonAdded]);
 
   const {
@@ -85,7 +88,13 @@ const ModalsContainer = ({
       {/* Add Person Modal */}
       <AddPersonModal 
         isOpen={addPersonDialogOpen} 
-        onOpenChange={setAddPersonDialogOpen} 
+        onOpenChange={(open) => {
+          setAddPersonDialogOpen(open);
+          if (!open) {
+            // Reset form when closing the dialog without adding
+            resetForm();
+          }
+        }}
         onAddPerson={handleAddPerson} 
         firstName={firstName} 
         setFirstName={setFirstName} 
@@ -104,8 +113,4 @@ const ModalsContainer = ({
   );
 };
 
-// Add missing import
-import { useState } from 'react';
-
-// Export the component
 export { ModalsContainer };
