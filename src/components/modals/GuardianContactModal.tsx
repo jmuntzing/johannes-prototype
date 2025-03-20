@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import GuardianContact from "@/components/GuardianContact";
 
 interface GuardianContactModalProps {
@@ -18,19 +18,26 @@ const GuardianContactModal = ({
 }: GuardianContactModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
-          <DialogTitle>Bara en sista fråga innan vi är klara</DialogTitle>
-          <DialogDescription>
-            Har vårdnadshavare till de inblandade eleverna kontaktats?
-          </DialogDescription>
+          <DialogTitle className="text-xl">Har vårdnadshavare informerats?</DialogTitle>
+          <p className="text-muted-foreground mt-2">
+            Innan du skickar in din anmälan, ange om vårdnadshavarna till de inblandade eleverna har informerats.
+          </p>
         </DialogHeader>
         <GuardianContact people={people} />
-        <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <DialogFooter className="gap-2 pt-4">
+          <Button 
+            variant="outline" 
+            onClick={() => onOpenChange(false)}
+            className="w-28"
+          >
             Avbryt
           </Button>
-          <Button onClick={onSubmit}>
+          <Button 
+            onClick={onSubmit} 
+            className="bg-gray-600 hover:bg-gray-700 w-36"
+          >
             Skicka in anmälan
           </Button>
         </DialogFooter>

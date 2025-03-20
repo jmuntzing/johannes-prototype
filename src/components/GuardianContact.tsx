@@ -32,32 +32,37 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
   };
 
   // Display at most 5 unique people, in case there are lots of duplicates in the incident list
-  const uniquePeople = people.slice(0, 5);
+  const uniquePeople = [...new Set(people)].slice(0, 5);
 
   return (
-    <div className="space-y-4 my-4">
+    <div className="my-4 border rounded-md p-4">
       {uniquePeople.length === 0 ? (
         <div className="text-center text-muted-foreground py-4">
           Ingen person har valts ännu. Lägg till personer i incidentlistan först.
         </div>
       ) : (
-        uniquePeople.map(person => (
-          <div key={person} className="grid grid-cols-1 md:grid-cols-[1fr,2fr] gap-4 p-3 border rounded">
-            <div className="font-medium flex items-center">
-              {person}
-            </div>
-            <div className="space-y-3">
+        <div className="space-y-4">
+          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-2 font-medium">
+            <div>Elev</div>
+            <div>Vårdnadshavare informerad?</div>
+            <div>Kommentar</div>
+          </div>
+          {uniquePeople.map(person => (
+            <div key={person} className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 items-center">
+              <div className="font-medium">
+                {person}
+              </div>
               <div>
                 <Select 
                   value={contactInfo[person]?.contacted || ''} 
                   onValueChange={(value) => updateContactInfo(person, 'contacted', value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Välj..." />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ja">Ja, vårdnadshavare har kontaktats</SelectItem>
-                    <SelectItem value="nej">Nej, vårdnadshavare har inte kontaktats</SelectItem>
+                  <SelectContent className="max-h-[300px]">
+                    <SelectItem value="ja">Ja, vårdnadshavare har informerats</SelectItem>
+                    <SelectItem value="nej">Nej, vårdnadshavare har inte informerats</SelectItem>
                     <SelectItem value="ingen kontakt krävs">Ingen kontakt krävs</SelectItem>
                   </SelectContent>
                 </Select>
@@ -71,8 +76,8 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
                 />
               </div>
             </div>
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </div>
   );
