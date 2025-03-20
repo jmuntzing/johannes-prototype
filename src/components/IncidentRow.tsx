@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { isUtsattesFor, getIncidentDisplay } from '@/utils/incidentUtils';
 import PersonSelect from '@/components/incidents/PersonSelect';
 import IncidentTypeSelect from '@/components/incidents/IncidentTypeSelect';
@@ -21,7 +21,7 @@ interface IncidentRowProps {
   autoFocus?: boolean;
 }
 
-const IncidentRow = ({
+const IncidentRow = memo(({
   incident,
   childrenNames,
   onUpdate,
@@ -92,5 +92,8 @@ const IncidentRow = ({
     </div>
   );
 });
+
+// Add display name for better debugging
+IncidentRow.displayName = 'IncidentRow';
 
 export default IncidentRow;
