@@ -33,11 +33,8 @@ const IncidentsList = ({
 }: IncidentsListProps) => {
   return (
     <div className="mb-8">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-2">
         <h3 className="text-xl font-semibold">Vem utsattes för/drabbades av vad?</h3>
-        <Button onClick={addIncident} variant="outline" size="sm">
-          <Plus className="mr-2 h-4 w-4" /> Lägg till ny
-        </Button>
       </div>
       <div className="space-y-0.5">
         {incidents.map((incident) => (
@@ -53,6 +50,12 @@ const IncidentsList = ({
           />
         ))}
       </div>
+      <button 
+        onClick={addIncident}
+        className="w-full mt-4 py-3 border border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors flex items-center justify-center"
+      >
+        <Plus className="mr-2 h-4 w-4" /> Lägg till ny
+      </button>
     </div>
   );
 };

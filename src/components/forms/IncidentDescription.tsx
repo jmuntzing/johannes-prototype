@@ -12,7 +12,7 @@ const IncidentDescription = ({
 }: IncidentDescriptionProps) => {
   return (
     <div className="md:col-span-3">
-      <h3 className="text-xl font-semibold mb-4">Vad var det som hände?</h3>
+      <h3 className="text-xl font-semibold mb-2">Vad var det som hände?</h3>
       <Textarea 
         id="vad-hande" 
         value={incidentDescription}
