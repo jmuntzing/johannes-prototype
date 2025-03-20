@@ -201,9 +201,7 @@ const Index = () => {
       <IncidentsList incidents={incidents} childrenNames={childrenNames} addIncident={addIncident} updateIncident={updateIncident} removeIncident={removeIncident} duplicateIncident={duplicateIncident} swapRoles={swapRoles} onAddPerson={() => setIsAddPersonDialogOpen(true)} />
 
       <div className="flex justify-end mt-8">
-        <Button onClick={handleSubmit} size="lg">
-          Skicka in
-        </Button>
+        <Button onClick={handleSubmit} size="lg" className="text-lg py-px">Slutför anmälan</Button>
       </div>
 
       {/* Guardian Contact Modal */}
