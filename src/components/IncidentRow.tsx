@@ -84,12 +84,12 @@ const IncidentRow = ({
         </Select>
       </div>
 
-      <div className="w-full md:w-auto flex-1">
+      <div className="w-full md:w-auto">
         <Select 
           value={incident.incident} 
           onValueChange={(value) => onUpdate("incident", value)}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full md:w-[300px]">
             <SelectValue placeholder="utsattes för/drabbades av..." />
           </SelectTrigger>
           <SelectContent>

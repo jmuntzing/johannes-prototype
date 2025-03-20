@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Plus, Upload } from "lucide-react";
+import { Plus, Upload, UserRoundPlus, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import IncidentRow from "@/components/IncidentRow";
@@ -21,10 +21,11 @@ const Index = () => {
   });
   const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
   const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
-  const [newPersonName, setNewPersonName] = useState('');
-  const [newPersonEmail, setNewPersonEmail] = useState('');
-  const [newPersonPhone, setNewPersonPhone] = useState('');
-  const [newPersonClass, setNewPersonClass] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [personalNumber, setPersonalNumber] = useState('');
+  const [gender, setGender] = useState('');
+  const [classGroup, setClassGroup] = useState('');
   const [childrenNames, setChildrenNames] = useState([
     "Alice Aronsson", "Axel Andersson", "Alva Lindgren", "Beata Berg",
     "Bertil Bäck", "Cecilia Carlsson", "Daniel Dahl", "Elsa Eriksson",
@@ -43,6 +44,34 @@ const Index = () => {
     { value: "skolgarden", label: "Skolgården" },
     { value: "slojdsalen", label: "Slöjdsalen" },
     { value: "uppehallsrum", label: "Uppehållsrum" }
+  ];
+
+  const genderOptions = [
+    { value: "flicka", label: "Flicka" },
+    { value: "pojke", label: "Pojke" },
+    { value: "annat", label: "Annat" },
+    { value: "vill_ej_ange", label: "Vill ej ange" }
+  ];
+
+  const classOptions = [
+    { value: "1A", label: "1A" },
+    { value: "1B", label: "1B" },
+    { value: "2A", label: "2A" },
+    { value: "2B", label: "2B" },
+    { value: "3A", label: "3A" },
+    { value: "3B", label: "3B" },
+    { value: "4A", label: "4A" },
+    { value: "4B", label: "4B" },
+    { value: "5A", label: "5A" },
+    { value: "5B", label: "5B" },
+    { value: "6A", label: "6A" },
+    { value: "6B", label: "6B" },
+    { value: "7A", label: "7A" },
+    { value: "7B", label: "7B" },
+    { value: "8A", label: "8A" },
+    { value: "8B", label: "8B" },
+    { value: "9A", label: "9A" },
+    { value: "9B", label: "9B" }
   ];
 
   const addIncident = () => {
@@ -95,27 +124,33 @@ const Index = () => {
   };
 
   const handleAddPerson = () => {
-    if (newPersonName.trim()) {
-      setChildrenNames([...childrenNames, newPersonName.trim()]);
-      setNewPersonName('');
-      setNewPersonEmail('');
-      setNewPersonPhone('');
-      setNewPersonClass('');
+    if (firstName.trim() && lastName.trim()) {
+      const fullName = `${firstName.trim()} ${lastName.trim()}`;
+      setChildrenNames([...childrenNames, fullName]);
+      resetNewPersonForm();
       setIsAddPersonDialogOpen(false);
       toast({
         title: "Person tillagd",
-        description: `${newPersonName.trim()} har lagts till i listan.`,
+        description: `${fullName} har lagts till i listan.`,
       });
     }
   };
 
+  const resetNewPersonForm = () => {
+    setFirstName('');
+    setLastName('');
+    setPersonalNumber('');
+    setGender('');
+    setClassGroup('');
+  };
+
   return (
-    <div className="container mx-auto py-10 px-4 max-w-6xl">
+    <div className="container mx-auto py-14 px-4 max-w-6xl">
       <h1 className="text-3xl font-medium mb-8">Rapportera incident</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-        <div className="md:col-span-2">
-          <h3 className="text-xl font-semibold mb-2">Vad var det som hände?</h3>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-8">
+        <div className="md:col-span-3">
+          <h3 className="text-xl font-semibold mb-4">Vad var det som hände?</h3>
           <Textarea 
             id="vad-hande" 
             value={incidentDescription}
@@ -125,9 +160,9 @@ const Index = () => {
           />
         </div>
 
-        <div className="space-y-8">
+        <div className="md:col-span-2 space-y-10">
           <div>
-            <h3 className="text-xl font-semibold mb-2">På vilken plats hände det?</h3>
+            <h3 className="text-xl font-semibold mb-4">På vilken plats hände det?</h3>
             <Select value={location} onValueChange={setLocation}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Välj plats..." />
@@ -143,7 +178,7 @@ const Index = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-2">Vilken dag hände det?</h3>
+            <h3 className="text-xl font-semibold mb-4">Vilken dag hände det?</h3>
             <Input 
               type="date" 
               value={date}
@@ -153,7 +188,7 @@ const Index = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-2">Finns det t.ex. foton eller film från händelsen?</h3>
+            <h3 className="text-xl font-semibold mb-4">Finns det t.ex. foton eller film från händelsen?</h3>
             <label htmlFor="dropzone-file" className="flex flex-row items-center justify-center w-full h-10 border border-dashed rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600">
               <Upload className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
               <span className="text-sm text-gray-500 dark:text-gray-400">Ladda upp filer</span>
@@ -170,7 +205,7 @@ const Index = () => {
             <Plus className="mr-2 h-4 w-4" /> Lägg till ny
           </Button>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-1">
           {incidents.map((incident) => (
             <IncidentRow
               key={incident.id}
@@ -221,59 +256,100 @@ const Index = () => {
 
       {/* Add Person Dialog */}
       <Dialog open={isAddPersonDialogOpen} onOpenChange={setIsAddPersonDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>Lägg till ny person</DialogTitle>
-            <DialogDescription>
-              Fyll i uppgifter om den nya personen som ska läggas till i listan.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4 space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Namn</Label>
-              <Input 
-                id="name" 
-                value={newPersonName}
-                onChange={(e) => setNewPersonName(e.target.value)}
-                placeholder="För- och efternamn"
-              />
+        <DialogContent className="sm:max-w-[600px] bg-[#F1F0FB]">
+          <div className="absolute right-4 top-4">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setIsAddPersonDialogOpen(false)}
+              className="h-6 w-6 rounded-full p-0"
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Stäng</span>
+            </Button>
+          </div>
+          
+          <div className="py-4">
+            <h2 className="text-3xl font-bold mb-6 text-[#403E43]">Lägg till elev</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-2">
+                <Label htmlFor="firstname" className="text-[#403E43] text-base">Förnamn</Label>
+                <Input 
+                  id="firstname" 
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Förnamn"
+                  className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="lastname" className="text-[#403E43] text-base">Efternamn</Label>
+                <Input 
+                  id="lastname" 
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Efternamn"
+                  className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]"
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">E-post</Label>
-              <Input 
-                id="email" 
-                type="email"
-                value={newPersonEmail}
-                onChange={(e) => setNewPersonEmail(e.target.value)}
-                placeholder="exempel@skola.se"
-              />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-2">
+                <Label htmlFor="personalnumber" className="text-[#403E43] text-base">Personnummer</Label>
+                <Input 
+                  id="personalnumber" 
+                  value={personalNumber}
+                  onChange={(e) => setPersonalNumber(e.target.value)}
+                  placeholder="Personnummer"
+                  className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="gender" className="text-[#403E43] text-base">Kön</Label>
+                <Select value={gender} onValueChange={setGender}>
+                  <SelectTrigger id="gender" className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]">
+                    <SelectValue placeholder="Ange kön..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {genderOptions.map(option => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Telefon</Label>
-              <Input 
-                id="phone" 
-                type="tel"
-                value={newPersonPhone}
-                onChange={(e) => setNewPersonPhone(e.target.value)}
-                placeholder="07X-XXX XX XX"
-              />
+            
+            <div className="space-y-2 mb-8">
+              <Label htmlFor="class" className="text-[#403E43] text-base">Klass/grupp</Label>
+              <Select value={classGroup} onValueChange={setClassGroup}>
+                <SelectTrigger id="class" className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]">
+                  <SelectValue placeholder="Ange klass/grupp..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {classOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="class">Klass</Label>
-              <Input 
-                id="class" 
-                value={newPersonClass}
-                onChange={(e) => setNewPersonClass(e.target.value)}
-                placeholder="t.ex. 7B"
-              />
+            
+            <div className="flex justify-end gap-4">
+              <Button variant="outline" onClick={() => setIsAddPersonDialogOpen(false)} className="min-w-[120px]">
+                Avbryt
+              </Button>
+              <Button onClick={handleAddPerson} className="min-w-[120px] bg-[#9b87f5] hover:bg-[#7b67d5]">
+                Lägg till
+              </Button>
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddPersonDialogOpen(false)}>
-              Avbryt
-            </Button>
-            <Button onClick={handleAddPerson}>Lägg till</Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
