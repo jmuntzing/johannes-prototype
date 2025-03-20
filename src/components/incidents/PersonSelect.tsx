@@ -27,9 +27,9 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
               {name}
             </SelectItem>
           ))}
-          <SelectSeparator />
+          <SelectSeparator className="bg-gray-300" />
           <div 
-            className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-base outline-none hover:bg-accent hover:text-accent-foreground cursor-pointer" 
+            className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-2 text-base outline-none hover:bg-accent hover:text-accent-foreground cursor-pointer" 
             onClick={onAddPerson}
           >
             <span className="font-medium">+ Lägg till elev</span>

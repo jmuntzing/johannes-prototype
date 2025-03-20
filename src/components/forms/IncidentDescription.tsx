@@ -17,7 +17,7 @@ const IncidentDescription = ({
         id="vad-hande" 
         value={incidentDescription}
         onChange={(e) => setIncidentDescription(e.target.value)}
-        placeholder='T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka..."'
+        placeholder='T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka. Det hela började med ett missförstånd från en tidigare diskussion i gruppen, som snabbt trappades upp. Alex knuffade Liam, och då slog Liam tillbaka. Bråket avbröts snabbt av en rastvakt som kom dit och stoppade dem. Båda grabbarna togs till rektorns kontor för att prata om vad som hänt …"'
         className="min-h-[350px]"
       />
     </div>

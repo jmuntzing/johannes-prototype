@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Trash2, Copy, RotateCw } from "lucide-react";
+import { Trash2, Copy, ArrowLeftRight } from "lucide-react";
 
 interface RowActionsProps {
   showSwap: boolean;
@@ -25,7 +25,7 @@ const RowActions = ({
           title="Byt roller"
           className="h-7 px-2"
         >
-          <RotateCw className="h-3 w-3 mr-0.5" />
+          <ArrowLeftRight className="h-3 w-3 mr-0.5" />
           <span className="text-xs">Byt roller</span>
         </Button>
       )}
