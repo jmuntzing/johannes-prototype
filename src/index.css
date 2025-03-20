@@ -116,3 +116,8 @@ input[type="date"] {
   position: relative;
   padding-right: 30px;
 }
+
+/* Make selected values in selects bold */
+[data-radix-select-value] {
+  font-weight: 600 !important;
+}
