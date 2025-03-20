@@ -102,6 +102,7 @@ export const useIncidentForm = () => {
 
   return {
     incidents,
+    setIncidents, // Export setIncidents so it can be used in the Index component
     incidentDescription,
     setIncidentDescription,
     location,

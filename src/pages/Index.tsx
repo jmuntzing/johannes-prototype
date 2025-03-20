@@ -7,6 +7,7 @@ import { ModalsContainer, useModalOpener } from '@/components/containers/ModalsC
 const Index = () => {
   const {
     incidents,
+    setIncidents, // Add this line to destructure setIncidents from the hook
     incidentDescription,
     setIncidentDescription,
     location,
