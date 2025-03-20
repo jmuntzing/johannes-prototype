@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -52,6 +52,7 @@ const AddPersonModal = ({
   classOptions
 }: AddPersonModalProps) => {
   const firstNameInputRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Focus on first name input when modal opens
   useEffect(() => {
@@ -60,7 +61,21 @@ const AddPersonModal = ({
         firstNameInputRef.current?.focus();
       }, 100);
     }
+    // Reset submitting state when modal opens/closes
+    setIsSubmitting(false);
   }, [isOpen]);
+
+  // Handle add person with debouncing to prevent multiple submissions
+  const handleAddPerson = useCallback(() => {
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    onAddPerson();
+    // Reset after a delay to handle any edge cases
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 500);
+  }, [isSubmitting, onAddPerson]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -144,7 +159,11 @@ const AddPersonModal = ({
             <Button variant="outline" onClick={() => onOpenChange(false)} className="min-w-[120px] text-base">
               Avbryt
             </Button>
-            <Button onClick={onAddPerson} className="min-w-[120px] text-base">
+            <Button 
+              onClick={handleAddPerson} 
+              className="min-w-[120px] text-base"
+              disabled={isSubmitting}
+            >
               Lägg till
             </Button>
           </div>

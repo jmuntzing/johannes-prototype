@@ -1,6 +1,6 @@
 
 import { Textarea } from "@/components/ui/textarea";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 
 interface IncidentDescriptionProps {
   incidentDescription: string;
@@ -11,10 +11,10 @@ const IncidentDescription = memo(({
   incidentDescription, 
   setIncidentDescription 
 }: IncidentDescriptionProps) => {
-  // Use a callback function for onChange to prevent unnecessary re-renders
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  // Use a memoized callback function for onChange to prevent unnecessary re-renders
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setIncidentDescription(e.target.value);
-  };
+  }, [setIncidentDescription]);
 
   return (
     <div className="md:col-span-3">

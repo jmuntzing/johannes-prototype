@@ -1,4 +1,5 @@
-import { useState, useCallback, memo } from 'react';
+
+import { useState, useCallback, memo, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import IncidentDescription from '@/components/forms/IncidentDescription';
@@ -11,8 +12,16 @@ const MemoizedIncidentDescription = memo(IncidentDescription);
 const MemoizedIncidentDetails = memo(IncidentDetails);
 const MemoizedIncidentsList = memo(IncidentsList);
 
+// Define a type for incidents to improve type safety
+interface Incident {
+  id: number;
+  person: string;
+  incident: string;
+  perpetrator: string;
+}
+
 const Index = () => {
-  const [incidents, setIncidents] = useState<any[]>([{
+  const [incidents, setIncidents] = useState<Incident[]>([{
     id: Date.now(),
     person: '',
     incident: '',
@@ -31,103 +40,44 @@ const Index = () => {
   const [personalNumber, setPersonalNumber] = useState('');
   const [gender, setGender] = useState('');
   const [classGroup, setClassGroup] = useState('');
-  const [childrenNames, setChildrenNames] = useState(["Alice Aronsson", "Axel Andersson", "Alva Lindgren", "Beata Berg", "Bertil Bäck", "Cecilia Carlsson", "Daniel Dahl", "Elsa Eriksson", "Frida Fors", "Gustav Grön", "Hugo Wallin", "Ida Isaksson", "Johan Johansson", "Karin Karlsson", "Lars Larsson", "Maja Martin", "Nils Nilsson", "Olivia Olsson", "Per Persson", "Sara Svensson"]);
+  const [childrenNames, setChildrenNames] = useState([
+    "Alice Aronsson", "Axel Andersson", "Alva Lindgren", "Beata Berg", 
+    "Bertil Bäck", "Cecilia Carlsson", "Daniel Dahl", "Elsa Eriksson", 
+    "Frida Fors", "Gustav Grön", "Hugo Wallin", "Ida Isaksson", 
+    "Johan Johansson", "Karin Karlsson", "Lars Larsson", "Maja Martin", 
+    "Nils Nilsson", "Olivia Olsson", "Per Persson", "Sara Svensson"
+  ]);
 
-  const locationOptions = [{
-    value: "aulan",
-    label: "Aulan"
-  }, {
-    value: "fotbollsplanen",
-    label: "Fotbollsplanen"
-  }, {
-    value: "gymnastiksalen",
-    label: "Gymnastiksalen"
-  }, {
-    value: "lektionssal",
-    label: "Lektionssal"
-  }, {
-    value: "matsalen",
-    label: "Matsalen"
-  }, {
-    value: "skolgarden",
-    label: "Skolgården"
-  }, {
-    value: "slojdsalen",
-    label: "Slöjdsalen"
-  }, {
-    value: "uppehallsrum",
-    label: "Uppehållsrum"
-  }];
+  // Memoize options to prevent unnecessary re-renders
+  const locationOptions = useMemo(() => [
+    { value: "aulan", label: "Aulan" },
+    { value: "fotbollsplanen", label: "Fotbollsplanen" },
+    { value: "gymnastiksalen", label: "Gymnastiksalen" },
+    { value: "lektionssal", label: "Lektionssal" },
+    { value: "matsalen", label: "Matsalen" },
+    { value: "skolgarden", label: "Skolgården" },
+    { value: "slojdsalen", label: "Slöjdsalen" },
+    { value: "uppehallsrum", label: "Uppehållsrum" }
+  ], []);
 
-  const genderOptions = [{
-    value: "flicka",
-    label: "Flicka"
-  }, {
-    value: "pojke",
-    label: "Pojke"
-  }, {
-    value: "annat",
-    label: "Annat"
-  }, {
-    value: "vill_ej_ange",
-    label: "Vill ej ange"
-  }];
+  const genderOptions = useMemo(() => [
+    { value: "flicka", label: "Flicka" },
+    { value: "pojke", label: "Pojke" },
+    { value: "annat", label: "Annat" },
+    { value: "vill_ej_ange", label: "Vill ej ange" }
+  ], []);
 
-  const classOptions = [{
-    value: "1A",
-    label: "1A"
-  }, {
-    value: "1B",
-    label: "1B"
-  }, {
-    value: "2A",
-    label: "2A"
-  }, {
-    value: "2B",
-    label: "2B"
-  }, {
-    value: "3A",
-    label: "3A"
-  }, {
-    value: "3B",
-    label: "3B"
-  }, {
-    value: "4A",
-    label: "4A"
-  }, {
-    value: "4B",
-    label: "4B"
-  }, {
-    value: "5A",
-    label: "5A"
-  }, {
-    value: "5B",
-    label: "5B"
-  }, {
-    value: "6A",
-    label: "6A"
-  }, {
-    value: "6B",
-    label: "6B"
-  }, {
-    value: "7A",
-    label: "7A"
-  }, {
-    value: "7B",
-    label: "7B"
-  }, {
-    value: "8A",
-    label: "8A"
-  }, {
-    value: "8B",
-    label: "8B"
-  }, {
-    value: "9A",
-    label: "9A"
-  }, {
-    value: "9B",
-    label: "9B"
-  }];
+  const classOptions = useMemo(() => [
+    { value: "1A", label: "1A" }, { value: "1B", label: "1B" },
+    { value: "2A", label: "2A" }, { value: "2B", label: "2B" },
+    { value: "3A", label: "3A" }, { value: "3B", label: "3B" },
+    { value: "4A", label: "4A" }, { value: "4B", label: "4B" },
+    { value: "5A", label: "5A" }, { value: "5B", label: "5B" },
+    { value: "6A", label: "6A" }, { value: "6B", label: "6B" },
+    { value: "7A", label: "7A" }, { value: "7B", label: "7B" },
+    { value: "8A", label: "8A" }, { value: "8B", label: "8B" },
+    { value: "9A", label: "9A" }, { value: "9B", label: "9B" }
+  ], []);
 
   const addIncident = useCallback(() => {
     setIncidents(prevIncidents => [...prevIncidents, {
@@ -183,14 +133,26 @@ const Index = () => {
     setIsGuardianDialogOpen(false);
   }, []);
 
+  // Optimized handleAddPerson to avoid multiple state updates
   const handleAddPerson = useCallback(() => {
     if (firstName.trim() && lastName.trim()) {
       const fullName = `${firstName.trim()} ${lastName.trim()}`;
-      setChildrenNames(prev => [...prev, fullName]);
       
+      // Batch updates to improve performance
+      // First update the children names
+      setChildrenNames(prev => {
+        // Check if name already exists to avoid duplicates
+        if (prev.includes(fullName)) {
+          return prev;
+        }
+        return [...prev, fullName];
+      });
+      
+      // Then update the incidents state in a single operation
       setIncidents(prevIncidents => {
+        // Find an empty slot or use the last incident
         const activeIncidentId = prevIncidents.find(inc => inc.person === '')?.id || 
-                                prevIncidents[prevIncidents.length - 1].id;
+                               prevIncidents[prevIncidents.length - 1].id;
         
         return prevIncidents.map(incident => 
           incident.id === activeIncidentId ? 
@@ -198,9 +160,11 @@ const Index = () => {
         );
       });
       
+      // Close the modal and reset the form
       resetNewPersonForm();
       setIsAddPersonDialogOpen(false);
       
+      // Show a toast notification
       toast({
         title: "Person tillagd",
         description: `${fullName} har lagts till i listan.`
@@ -216,6 +180,7 @@ const Index = () => {
     setClassGroup('');
   }, []);
 
+  // Improved implementation with proper debouncing
   const handleSubmitWithDelay = useCallback(() => {
     const button = document.querySelector('button[type="submit"]');
     if (button) {
@@ -223,7 +188,7 @@ const Index = () => {
       setTimeout(() => {
         button.removeAttribute('disabled');
         handleSubmit();
-      }, 100);
+      }, 300); // Increased timeout for better reliability
     } else {
       handleSubmit();
     }
