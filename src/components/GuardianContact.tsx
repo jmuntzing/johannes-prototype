@@ -49,13 +49,13 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
           Ingen person har valts ännu. Lägg till personer i incidentlistan först.
         </div>
       ) : (
-        <div className="space-y-4">
-          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-1">
+        <div className="space-y-3">
+          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-0">
             <div className="text-sm font-medium">Elev</div>
             <div className="text-sm font-medium">Vårdnadshavare informerad?</div>
             <div className="text-sm font-medium">Kommentar</div>
           </div>
-          <Separator className="mb-2" />
+          <Separator className="my-1" />
           {uniquePeople.map(person => (
             <div key={person} className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 items-center">
               <div className="font-medium">

@@ -30,14 +30,14 @@ const GuardianContactModal = ({
           <Button 
             variant="outline" 
             onClick={() => onOpenChange(false)}
-            className="w-28"
+            className="w-32 h-12 text-base"
             type="button"
           >
             Avbryt
           </Button>
           <Button 
             onClick={onSubmit} 
-            className="bg-gray-600 hover:bg-gray-700 w-36"
+            className="bg-gray-600 hover:bg-gray-700 w-40 h-12 text-base"
             type="button"
           >
             Skicka in anmälan
