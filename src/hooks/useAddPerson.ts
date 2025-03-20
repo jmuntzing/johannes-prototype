@@ -11,7 +11,7 @@ export interface AddPersonState {
 }
 
 export interface UseAddPersonProps {
-  onPersonAdded: (fullName: string, isEmpty?: boolean) => void;
+  onPersonAdded: (fullName: string) => void;
 }
 
 export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
@@ -49,21 +49,27 @@ export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
   }, []);
 
   const handleAddPerson = useCallback(() => {
-    if (firstName.trim() && lastName.trim()) {
-      const fullName = `${firstName.trim()} ${lastName.trim()}`;
-      
-      // Call the callback with the new person's name
-      onPersonAdded(fullName);
-      
-      // Show confirmation toast
+    if (!firstName.trim() || !lastName.trim()) {
       toast({
-        title: "Person tillagd",
-        description: `${fullName} har lagts till i listan.`
+        title: "Ofullständig information",
+        description: "Ange både för- och efternamn."
       });
-      
-      // Reset form
-      resetForm();
+      return;
     }
+
+    const fullName = `${firstName.trim()} ${lastName.trim()}`;
+    
+    // Call the callback with the new person's name
+    onPersonAdded(fullName);
+    
+    // Show confirmation toast
+    toast({
+      title: "Person tillagd",
+      description: `${fullName} har lagts till i listan.`
+    });
+    
+    // Reset form
+    resetForm();
   }, [firstName, lastName, onPersonAdded, resetForm]);
 
   return {

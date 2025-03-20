@@ -1,5 +1,5 @@
 
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import { Button } from "@/components/ui/button";
 import IncidentDescription from '@/components/forms/IncidentDescription';
 import IncidentDetails from '@/components/forms/IncidentDetails';
@@ -43,11 +43,6 @@ const IncidentForm = memo(({
   onOpenAddPersonDialog,
   onSubmit
 }: IncidentFormProps) => {
-  // Simplified handle submit function
-  const handleSubmit = useCallback(() => {
-    onSubmit();
-  }, [onSubmit]);
-
   return (
     <div className="container mx-auto py-20 px-4 max-w-6xl">
       <h1 className="text-3xl font-medium mb-8">Anmäl incident</h1>
@@ -80,10 +75,13 @@ const IncidentForm = memo(({
 
       <div className="flex justify-end mt-8">
         <Button 
-          onClick={handleSubmit} 
+          onClick={() => {
+            console.log("Submit button clicked in IncidentForm");
+            onSubmit();
+          }} 
           size="lg" 
           className="text-lg py-px"
-          type="submit"
+          type="button"
         >
           Slutför anmälan
         </Button>

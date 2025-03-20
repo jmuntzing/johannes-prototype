@@ -2,7 +2,7 @@
 import { useCallback, useState } from 'react';
 import { useIncidentForm } from '@/hooks/useIncidentForm';
 import IncidentForm from '@/components/forms/IncidentForm';
-import { ModalsContainer, useModalOpener } from '@/components/containers/ModalsContainer';
+import { ModalsContainer } from '@/components/containers/ModalsContainer';
 
 const Index = () => {
   const {
@@ -25,26 +25,33 @@ const Index = () => {
     submitForm
   } = useIncidentForm();
 
-  const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
   const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
 
   // Function to handle adding a person with updating an incident
-  const handlePersonAdded = useCallback((fullName: string, isEmpty: boolean) => {
-    // Find an empty slot or use the last incident
-    const hasEmptyPerson = incidents.some(inc => inc.person === '');
+  const handlePersonAdded = useCallback((fullName: string) => {
+    console.log("Person added:", fullName);
     
-    if (hasEmptyPerson) {
-      setIncidents(prevIncidents => {
-        return prevIncidents.map(incident => 
-          incident.person === '' ? { ...incident, person: fullName } : incident
-        );
-      });
+    // Find the first incident with an empty person field
+    const emptyIncidentIndex = incidents.findIndex(inc => inc.person === '');
+    
+    if (emptyIncidentIndex !== -1) {
+      // Update that incident
+      const updatedIncidents = [...incidents];
+      updatedIncidents[emptyIncidentIndex] = {
+        ...updatedIncidents[emptyIncidentIndex],
+        person: fullName
+      };
+      setIncidents(updatedIncidents);
     }
+    
+    // Close the dialog
+    setIsAddPersonDialogOpen(false);
   }, [incidents, setIncidents]);
 
   const handleSubmit = useCallback(() => {
-    setIsGuardianDialogOpen(true);
-  }, []);
+    console.log("Submit button clicked");
+    submitForm();
+  }, [submitForm]);
 
   return (
     <>
@@ -63,7 +70,10 @@ const Index = () => {
         removeIncident={removeIncident}
         duplicateIncident={duplicateIncident}
         swapRoles={swapRoles}
-        onOpenAddPersonDialog={() => setIsAddPersonDialogOpen(true)}
+        onOpenAddPersonDialog={() => {
+          console.log("Opening add person dialog");
+          setIsAddPersonDialogOpen(true);
+        }}
         onSubmit={handleSubmit}
       />
 
@@ -73,6 +83,8 @@ const Index = () => {
         setChildrenNames={setChildrenNames}
         onPersonAdded={handlePersonAdded}
         onSubmitForm={submitForm}
+        isAddPersonDialogOpen={isAddPersonDialogOpen}
+        setIsAddPersonDialogOpen={setIsAddPersonDialogOpen}
       />
     </>
   );

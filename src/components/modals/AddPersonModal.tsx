@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -52,7 +52,6 @@ const AddPersonModal = ({
   classOptions
 }: AddPersonModalProps) => {
   const firstNameInputRef = useRef<HTMLInputElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Focus on first name input when modal opens
   useEffect(() => {
@@ -61,14 +60,7 @@ const AddPersonModal = ({
         firstNameInputRef.current?.focus();
       }, 100);
     }
-    // Reset submitting state when modal opens/closes
-    setIsSubmitting(false);
   }, [isOpen]);
-
-  // Handle add person without the potentially problematic debouncing
-  const handleAddPerson = () => {
-    onAddPerson();
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -153,8 +145,9 @@ const AddPersonModal = ({
               Avbryt
             </Button>
             <Button 
-              onClick={handleAddPerson} 
+              onClick={onAddPerson}
               className="min-w-[120px] text-base"
+              type="button"
             >
               Lägg till
             </Button>

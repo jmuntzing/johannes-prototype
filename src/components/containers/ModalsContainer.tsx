@@ -8,8 +8,10 @@ interface ModalsContainerProps {
   people: string[];
   childrenNames: string[];
   setChildrenNames: (names: string[]) => void;
-  onPersonAdded: (name: string, isEmpty: boolean) => void;
+  onPersonAdded: (name: string) => void;
   onSubmitForm: () => void;
+  isAddPersonDialogOpen?: boolean;
+  setIsAddPersonDialogOpen?: (open: boolean) => void;
 }
 
 const ModalsContainer = ({
@@ -17,23 +19,31 @@ const ModalsContainer = ({
   childrenNames,
   setChildrenNames,
   onPersonAdded,
-  onSubmitForm
+  onSubmitForm,
+  isAddPersonDialogOpen,
+  setIsAddPersonDialogOpen
 }: ModalsContainerProps) => {
   const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
-  const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
+  const [localAddPersonDialogOpen, setLocalAddPersonDialogOpen] = useState(false);
+  
+  // Use either the prop state or local state
+  const addPersonDialogOpen = isAddPersonDialogOpen !== undefined ? isAddPersonDialogOpen : localAddPersonDialogOpen;
+  const setAddPersonDialogOpen = setIsAddPersonDialogOpen || setLocalAddPersonDialogOpen;
 
   const handlePersonAdded = useCallback((fullName: string) => {
+    console.log("Person added in ModalsContainer:", fullName);
+    
     // First check if the name already exists to avoid duplicates
     if (!childrenNames.includes(fullName)) {
       setChildrenNames([...childrenNames, fullName]);
     }
     
     // Call the parent callback to update any active incident
-    onPersonAdded(fullName, false);
+    onPersonAdded(fullName);
     
     // Close the dialog
-    setIsAddPersonDialogOpen(false);
-  }, [childrenNames, setChildrenNames, onPersonAdded]);
+    setAddPersonDialogOpen(false);
+  }, [childrenNames, setChildrenNames, onPersonAdded, setAddPersonDialogOpen]);
 
   const {
     firstName,
@@ -54,14 +64,15 @@ const ModalsContainer = ({
 
   const handleOpenAddPersonDialog = useCallback(() => {
     resetForm();
-    setIsAddPersonDialogOpen(true);
-  }, [resetForm]);
+    setAddPersonDialogOpen(true);
+  }, [resetForm, setAddPersonDialogOpen]);
 
   const handleOpenGuardianDialog = useCallback(() => {
     setIsGuardianDialogOpen(true);
   }, []);
 
   const handleSubmitForm = useCallback(() => {
+    console.log("Submit form called in ModalsContainer");
     onSubmitForm();
     setIsGuardianDialogOpen(false);
   }, [onSubmitForm]);
@@ -78,8 +89,8 @@ const ModalsContainer = ({
 
       {/* Add Person Modal */}
       <AddPersonModal 
-        isOpen={isAddPersonDialogOpen} 
-        onOpenChange={setIsAddPersonDialogOpen} 
+        isOpen={addPersonDialogOpen} 
+        onOpenChange={setAddPersonDialogOpen} 
         onAddPerson={handleAddPerson} 
         firstName={firstName} 
         setFirstName={setFirstName} 
@@ -94,17 +105,9 @@ const ModalsContainer = ({
         genderOptions={genderOptions} 
         classOptions={classOptions} 
       />
-
-      {/* Export handleOpenGuardianDialog and handleOpenAddPersonDialog */}
-      <div className="hidden">
-        {/* This empty div is just to avoid linter warnings about unused variables */}
-      </div>
     </>
   );
 };
 
-// Export both the component and the hooks
-export { 
-  ModalsContainer,
-  useCallback as useModalOpener
-};
+// Export the component
+export { ModalsContainer };
