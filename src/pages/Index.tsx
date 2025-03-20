@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Plus, Trash2, Copy, RotateCw, Upload } from "lucide-react";
+import { Plus, Upload } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import IncidentRow from "@/components/IncidentRow";
 import GuardianContact from "@/components/GuardianContact";
 
@@ -109,26 +108,24 @@ const Index = () => {
       <h1 className="text-3xl font-medium mb-8">Rapportera incident</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Vad var det som hände?</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Textarea 
-              id="vad-hande" 
-              value={incidentDescription}
-              onChange={(e) => setIncidentDescription(e.target.value)}
-              placeholder='T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka..."'
-              className="min-h-[250px]"
-            />
-          </CardContent>
-        </Card>
+        <div className="p-6 rounded-lg">
+          <div className="mb-4">
+            <h3 className="text-xl font-semibold mb-4">Vad var det som hände?</h3>
+          </div>
+          <Textarea 
+            id="vad-hande" 
+            value={incidentDescription}
+            onChange={(e) => setIncidentDescription(e.target.value)}
+            placeholder='T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka..."'
+            className="min-h-[250px]"
+          />
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">På vilken plats hände det?</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="space-y-8">
+          <div className="p-6 rounded-lg">
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold mb-4">På vilken plats hände det?</h3>
+            </div>
             <Select value={location} onValueChange={setLocation}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Välj plats..." />
@@ -141,28 +138,24 @@ const Index = () => {
                 ))}
               </SelectContent>
             </Select>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Vilken dag hände det?</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <div className="p-6 rounded-lg">
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold mb-4">Vilken dag hände det?</h3>
+            </div>
             <Input 
               type="date" 
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="w-full"
             />
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Finns det t.ex. foton eller film från händelsen?</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <div className="p-6 rounded-lg">
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold mb-4">Finns det t.ex. foton eller film från händelsen?</h3>
+            </div>
             <div className="flex items-center justify-center w-full">
               <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -175,36 +168,32 @@ const Index = () => {
                 <input id="dropzone-file" type="file" className="hidden" />
               </label>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <Card className="mb-8">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl">Vem utsattes för/drabbades av vad?</CardTitle>
-            <Button onClick={addIncident} variant="outline" size="sm">
-              <Plus className="mr-2 h-4 w-4" /> Lägg till ny
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {incidents.map((incident) => (
-              <IncidentRow
-                key={incident.id}
-                incident={incident}
-                childrenNames={childrenNames}
-                onUpdate={(field, value) => updateIncident(incident.id, field, value)}
-                onRemove={() => removeIncident(incident.id)}
-                onDuplicate={() => duplicateIncident(incident.id)}
-                onSwap={() => swapRoles(incident.id)}
-                onAddPerson={() => setIsAddPersonSheetOpen(true)}
-              />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="mb-8 p-6 rounded-lg">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-semibold">Vem utsattes för/drabbades av vad?</h3>
+          <Button onClick={addIncident} variant="outline" size="sm">
+            <Plus className="mr-2 h-4 w-4" /> Lägg till ny
+          </Button>
+        </div>
+        <div className="space-y-3">
+          {incidents.map((incident) => (
+            <IncidentRow
+              key={incident.id}
+              incident={incident}
+              childrenNames={childrenNames}
+              onUpdate={(field, value) => updateIncident(incident.id, field, value)}
+              onRemove={() => removeIncident(incident.id)}
+              onDuplicate={() => duplicateIncident(incident.id)}
+              onSwap={() => swapRoles(incident.id)}
+              onAddPerson={() => setIsAddPersonSheetOpen(true)}
+            />
+          ))}
+        </div>
+      </div>
 
       <div className="flex justify-end mt-8">
         <Button onClick={handleSubmit} size="lg">
@@ -272,4 +261,3 @@ const Index = () => {
 };
 
 export default Index;
-
