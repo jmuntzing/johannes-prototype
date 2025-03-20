@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,8 +21,11 @@ const Index = () => {
     return today.toISOString().split('T')[0];
   });
   const [isGuardianDialogOpen, setIsGuardianDialogOpen] = useState(false);
-  const [isAddPersonSheetOpen, setIsAddPersonSheetOpen] = useState(false);
+  const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
   const [newPersonName, setNewPersonName] = useState('');
+  const [newPersonEmail, setNewPersonEmail] = useState('');
+  const [newPersonPhone, setNewPersonPhone] = useState('');
+  const [newPersonClass, setNewPersonClass] = useState('');
   const [childrenNames, setChildrenNames] = useState([
     "Alice Aronsson", "Axel Andersson", "Alva Lindgren", "Beata Berg",
     "Bertil Bäck", "Cecilia Carlsson", "Daniel Dahl", "Elsa Eriksson",
@@ -95,7 +99,10 @@ const Index = () => {
     if (newPersonName.trim()) {
       setChildrenNames([...childrenNames, newPersonName.trim()]);
       setNewPersonName('');
-      setIsAddPersonSheetOpen(false);
+      setNewPersonEmail('');
+      setNewPersonPhone('');
+      setNewPersonClass('');
+      setIsAddPersonDialogOpen(false);
       toast({
         title: "Person tillagd",
         description: `${newPersonName.trim()} har lagts till i listan.`,
@@ -121,10 +128,10 @@ const Index = () => {
           />
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-4">
           <div className="p-6 rounded-lg">
             <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-4">På vilken plats hände det?</h3>
+              <h3 className="text-xl font-semibold mb-2">På vilken plats hände det?</h3>
             </div>
             <Select value={location} onValueChange={setLocation}>
               <SelectTrigger className="w-full">
@@ -142,7 +149,7 @@ const Index = () => {
 
           <div className="p-6 rounded-lg">
             <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-4">Vilken dag hände det?</h3>
+              <h3 className="text-xl font-semibold mb-2">Vilken dag hände det?</h3>
             </div>
             <Input 
               type="date" 
@@ -154,17 +161,12 @@ const Index = () => {
 
           <div className="p-6 rounded-lg">
             <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-4">Finns det t.ex. foton eller film från händelsen?</h3>
+              <h3 className="text-xl font-semibold mb-2">Finns det t.ex. foton eller film från händelsen?</h3>
             </div>
             <div className="flex items-center justify-center w-full">
-              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <Upload className="w-8 h-8 mb-3 text-gray-500 dark:text-gray-400" />
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Klicka för att ladda upp</span> eller dra och släpp
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
-                </div>
+              <label htmlFor="dropzone-file" className="flex flex-row items-center justify-center w-full h-12 border border-dashed rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
+                <Upload className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
+                <span className="text-sm text-gray-500 dark:text-gray-400">Ladda upp filer</span>
                 <input id="dropzone-file" type="file" className="hidden" />
               </label>
             </div>
@@ -189,7 +191,7 @@ const Index = () => {
               onRemove={() => removeIncident(incident.id)}
               onDuplicate={() => duplicateIncident(incident.id)}
               onSwap={() => swapRoles(incident.id)}
-              onAddPerson={() => setIsAddPersonSheetOpen(true)}
+              onAddPerson={() => setIsAddPersonDialogOpen(true)}
             />
           ))}
         </div>
@@ -228,16 +230,16 @@ const Index = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Add Person Sheet */}
-      <Sheet open={isAddPersonSheetOpen} onOpenChange={setIsAddPersonSheetOpen}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Lägg till ny person</SheetTitle>
-            <SheetDescription>
-              Fyll i namn på den nya personen som ska läggas till i listan.
-            </SheetDescription>
-          </SheetHeader>
-          <div className="py-4">
+      {/* Add Person Dialog - Changed from Sheet to Dialog with more fields */}
+      <Dialog open={isAddPersonDialogOpen} onOpenChange={setIsAddPersonDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Lägg till ny person</DialogTitle>
+            <DialogDescription>
+              Fyll i uppgifter om den nya personen som ska läggas till i listan.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Namn</Label>
               <Input 
@@ -247,15 +249,44 @@ const Index = () => {
                 placeholder="För- och efternamn"
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">E-post</Label>
+              <Input 
+                id="email" 
+                type="email"
+                value={newPersonEmail}
+                onChange={(e) => setNewPersonEmail(e.target.value)}
+                placeholder="exempel@skola.se"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Telefon</Label>
+              <Input 
+                id="phone" 
+                type="tel"
+                value={newPersonPhone}
+                onChange={(e) => setNewPersonPhone(e.target.value)}
+                placeholder="07X-XXX XX XX"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="class">Klass</Label>
+              <Input 
+                id="class" 
+                value={newPersonClass}
+                onChange={(e) => setNewPersonClass(e.target.value)}
+                placeholder="t.ex. 7B"
+              />
+            </div>
           </div>
-          <SheetFooter>
-            <Button variant="outline" onClick={() => setIsAddPersonSheetOpen(false)}>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAddPersonDialogOpen(false)}>
               Avbryt
             </Button>
             <Button onClick={handleAddPerson}>Lägg till</Button>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
