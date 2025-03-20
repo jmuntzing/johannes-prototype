@@ -65,17 +65,10 @@ const AddPersonModal = ({
     setIsSubmitting(false);
   }, [isOpen]);
 
-  // Handle add person with debouncing to prevent multiple submissions
-  const handleAddPerson = useCallback(() => {
-    if (isSubmitting) return;
-    
-    setIsSubmitting(true);
+  // Handle add person without the potentially problematic debouncing
+  const handleAddPerson = () => {
     onAddPerson();
-    // Reset after a delay to handle any edge cases
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 500);
-  }, [isSubmitting, onAddPerson]);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -162,7 +155,6 @@ const AddPersonModal = ({
             <Button 
               onClick={handleAddPerson} 
               className="min-w-[120px] text-base"
-              disabled={isSubmitting}
             >
               Lägg till
             </Button>

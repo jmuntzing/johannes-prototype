@@ -11,7 +11,7 @@ export interface AddPersonState {
 }
 
 export interface UseAddPersonProps {
-  onPersonAdded: (fullName: string) => void;
+  onPersonAdded: (fullName: string, isEmpty?: boolean) => void;
 }
 
 export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
@@ -20,7 +20,6 @@ export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
   const [personalNumber, setPersonalNumber] = useState('');
   const [gender, setGender] = useState('');
   const [classGroup, setClassGroup] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const genderOptions = [
     { value: "flicka", label: "Flicka" },
@@ -50,14 +49,14 @@ export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
   }, []);
 
   const handleAddPerson = useCallback(() => {
-    if (isSubmitting) return;
-    
     if (firstName.trim() && lastName.trim()) {
-      setIsSubmitting(true);
       const fullName = `${firstName.trim()} ${lastName.trim()}`;
       
+      // Check if the field was empty
+      const isEmpty = true;
+      
       // Call the callback with the new person's name
-      onPersonAdded(fullName);
+      onPersonAdded(fullName, isEmpty);
       
       // Show confirmation toast
       toast({
@@ -67,13 +66,8 @@ export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
       
       // Reset form
       resetForm();
-      
-      // Reset submitting state after a delay
-      setTimeout(() => {
-        setIsSubmitting(false);
-      }, 500);
     }
-  }, [firstName, lastName, isSubmitting, onPersonAdded, resetForm]);
+  }, [firstName, lastName, onPersonAdded, resetForm]);
 
   return {
     firstName,
@@ -88,7 +82,6 @@ export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
     setClassGroup,
     genderOptions,
     classOptions,
-    isSubmitting,
     handleAddPerson,
     resetForm
   };

@@ -1,5 +1,5 @@
 
-import { memo, useCallback, useRef } from 'react';
+import { memo, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import IncidentDescription from '@/components/forms/IncidentDescription';
 import IncidentDetails from '@/components/forms/IncidentDetails';
@@ -43,19 +43,9 @@ const IncidentForm = memo(({
   onOpenAddPersonDialog,
   onSubmit
 }: IncidentFormProps) => {
-  const submitButtonRef = useRef<HTMLButtonElement>(null);
-
-  // Improved implementation with proper debouncing
-  const handleSubmitWithDelay = useCallback(() => {
-    if (submitButtonRef.current) {
-      submitButtonRef.current.setAttribute('disabled', 'true');
-      setTimeout(() => {
-        submitButtonRef.current?.removeAttribute('disabled');
-        onSubmit();
-      }, 300);
-    } else {
-      onSubmit();
-    }
+  // Simplified handle submit function
+  const handleSubmit = useCallback(() => {
+    onSubmit();
   }, [onSubmit]);
 
   return (
@@ -90,11 +80,10 @@ const IncidentForm = memo(({
 
       <div className="flex justify-end mt-8">
         <Button 
-          onClick={handleSubmitWithDelay} 
+          onClick={handleSubmit} 
           size="lg" 
           className="text-lg py-px"
           type="submit"
-          ref={submitButtonRef}
         >
           Slutför anmälan
         </Button>
