@@ -1,6 +1,6 @@
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getIncidentDisplay } from "@/utils/incidentUtils";
+import { getIncidentDisplay, isUtsattesFor } from "@/utils/incidentUtils";
 
 interface IncidentTypeSelectProps {
   value: string;
@@ -11,13 +11,26 @@ const IncidentTypeSelect = ({
   value,
   onChange
 }: IncidentTypeSelectProps) => {
+  const renderTriggerContent = () => {
+    if (!value) return <SelectValue placeholder="utsattes för/drabbades av..." />;
+    
+    const prefix = isUtsattesFor(value) ? 'utsattes för' : 'drabbades av';
+    
+    return (
+      <div className="flex items-center">
+        <span className="mr-1">{prefix}</span>
+        <span className="font-semibold">{value}</span>
+      </div>
+    );
+  };
+
   return (
     <Select 
       value={value} 
       onValueChange={onChange}
     >
       <SelectTrigger className="w-full md:w-[300px]">
-        <SelectValue placeholder="utsattes för/drabbades av..." />
+        {renderTriggerContent()}
       </SelectTrigger>
       <SelectContent className="max-h-[300px]">
         <SelectGroup>
