@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -96,6 +97,11 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-base;
+    font-size: 16px;
+  }
+  
+  p, label, input, textarea, select, button {
+    font-size: 1.05rem;
   }
 }

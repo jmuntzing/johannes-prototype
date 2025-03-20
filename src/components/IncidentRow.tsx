@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { isUtsattesFor, getIncidentDisplay } from '@/utils/incidentUtils';
 import PersonSelect from '@/components/incidents/PersonSelect';
 import IncidentTypeSelect from '@/components/incidents/IncidentTypeSelect';
@@ -18,6 +18,7 @@ interface IncidentRowProps {
   onDuplicate: () => void;
   onSwap: () => void;
   onAddPerson: () => void;
+  autoFocus?: boolean;
 }
 
 const IncidentRow = ({
@@ -27,15 +28,24 @@ const IncidentRow = ({
   onRemove,
   onDuplicate,
   onSwap,
-  onAddPerson
+  onAddPerson,
+  autoFocus = false
 }: IncidentRowProps) => {
   const [showPerpetrator, setShowPerpetrator] = useState(false);
+  const personSelectRef = useRef<HTMLButtonElement>(null);
 
   // Check if the incident requires a perpetrator when the component mounts or when incident changes
   useEffect(() => {
     const requiresPerpetrator = isUtsattesFor(incident.incident);
     setShowPerpetrator(requiresPerpetrator);
   }, [incident.incident]);
+
+  // Set focus to the first field on mount if autoFocus is true
+  useEffect(() => {
+    if (autoFocus && personSelectRef.current) {
+      personSelectRef.current.focus();
+    }
+  }, [autoFocus]);
 
   return (
     <div className="p-3 bg-gray-50 rounded-lg flex flex-wrap md:flex-nowrap items-center gap-3">
@@ -45,6 +55,7 @@ const IncidentRow = ({
           onChange={(value) => onUpdate("person", value)}
           childrenNames={childrenNames}
           onAddPerson={onAddPerson}
+          ref={personSelectRef}
         />
       </div>
 

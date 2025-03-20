@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -52,6 +52,17 @@ const AddPersonModal = ({
   genderOptions,
   classOptions
 }: AddPersonModalProps) => {
+  const firstNameInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus on first name input when modal opens
+  useEffect(() => {
+    if (isOpen && firstNameInputRef.current) {
+      setTimeout(() => {
+        firstNameInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
@@ -78,6 +89,7 @@ const AddPersonModal = ({
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Förnamn"
+                ref={firstNameInputRef}
               />
             </div>
             
