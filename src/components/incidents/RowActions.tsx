@@ -23,9 +23,9 @@ const RowActions = ({
           size="sm"
           onClick={onSwap}
           title="Byt roller"
-          className="h-8"
+          className="h-7"
         >
-          <RotateCw className="h-3.5 w-3.5 mr-1" />
+          <RotateCw className="h-3 w-3 mr-1" />
           <span className="text-xs">Byt roller</span>
         </Button>
       )}
@@ -34,9 +34,9 @@ const RowActions = ({
         size="sm"
         onClick={onDuplicate}
         title="Skapa kopia"
-        className="h-8"
+        className="h-7"
       >
-        <Copy className="h-3.5 w-3.5 mr-1" />
+        <Copy className="h-3 w-3 mr-1" />
         <span className="text-xs">Kopiera</span>
       </Button>
       <Button 
@@ -44,9 +44,9 @@ const RowActions = ({
         size="sm"
         onClick={onRemove}
         title="Ta bort"
-        className="h-8"
+        className="h-7"
       >
-        <Trash2 className="h-3.5 w-3.5 mr-1" />
+        <Trash2 className="h-3 w-3 mr-1" />
         <span className="text-xs">Radera</span>
       </Button>
     </div>
