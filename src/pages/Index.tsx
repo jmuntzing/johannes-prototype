@@ -1,11 +1,9 @@
-
 import { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Plus, Upload } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -115,10 +113,8 @@ const Index = () => {
       <h1 className="text-3xl font-medium mb-8">Rapportera incident</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div className="p-6 rounded-lg">
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold mb-4">Vad var det som hände?</h3>
-          </div>
+        <div>
+          <h3 className="text-xl font-semibold mb-4">Vad var det som hände?</h3>
           <Textarea 
             id="vad-hande" 
             value={incidentDescription}
@@ -128,11 +124,9 @@ const Index = () => {
           />
         </div>
 
-        <div className="space-y-4">
-          <div className="p-6 rounded-lg">
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">På vilken plats hände det?</h3>
-            </div>
+        <div className="space-y-3">
+          <div>
+            <h3 className="text-xl font-semibold mb-2">På vilken plats hände det?</h3>
             <Select value={location} onValueChange={setLocation}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Välj plats..." />
@@ -147,10 +141,8 @@ const Index = () => {
             </Select>
           </div>
 
-          <div className="p-6 rounded-lg">
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Vilken dag hände det?</h3>
-            </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Vilken dag hände det?</h3>
             <Input 
               type="date" 
               value={date}
@@ -159,22 +151,18 @@ const Index = () => {
             />
           </div>
 
-          <div className="p-6 rounded-lg">
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold mb-2">Finns det t.ex. foton eller film från händelsen?</h3>
-            </div>
-            <div className="flex items-center justify-center w-full">
-              <label htmlFor="dropzone-file" className="flex flex-row items-center justify-center w-full h-12 border border-dashed rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
-                <Upload className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
-                <span className="text-sm text-gray-500 dark:text-gray-400">Ladda upp filer</span>
-                <input id="dropzone-file" type="file" className="hidden" />
-              </label>
-            </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Finns det t.ex. foton eller film från händelsen?</h3>
+            <label htmlFor="dropzone-file" className="flex flex-row items-center justify-center w-full h-10 border border-dashed rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600">
+              <Upload className="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
+              <span className="text-sm text-gray-500 dark:text-gray-400">Ladda upp filer</span>
+              <input id="dropzone-file" type="file" className="hidden" />
+            </label>
           </div>
         </div>
       </div>
 
-      <div className="mb-8 p-6 rounded-lg">
+      <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold">Vem utsattes för/drabbades av vad?</h3>
           <Button onClick={addIncident} variant="outline" size="sm">
@@ -230,7 +218,7 @@ const Index = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Add Person Dialog - Changed from Sheet to Dialog with more fields */}
+      {/* Add Person Dialog */}
       <Dialog open={isAddPersonDialogOpen} onOpenChange={setIsAddPersonDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
