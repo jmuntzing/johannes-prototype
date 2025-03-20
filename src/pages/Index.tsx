@@ -7,7 +7,7 @@ import { ModalsContainer, useModalOpener } from '@/components/containers/ModalsC
 const Index = () => {
   const {
     incidents,
-    setIncidents, // Add this line to destructure setIncidents from the hook
+    setIncidents,
     incidentDescription,
     setIncidentDescription,
     location,
@@ -31,20 +31,16 @@ const Index = () => {
   // Function to handle adding a person with updating an incident
   const handlePersonAdded = useCallback((fullName: string, isEmpty: boolean) => {
     // Find an empty slot or use the last incident
-    setIncidents(prevIncidents => {
-      const activeIncidentId = isEmpty 
-        ? prevIncidents.find(inc => inc.person === '')?.id || prevIncidents[prevIncidents.length - 1].id
-        : null;
-      
-      if (activeIncidentId) {
+    const hasEmptyPerson = incidents.some(inc => inc.person === '');
+    
+    if (hasEmptyPerson) {
+      setIncidents(prevIncidents => {
         return prevIncidents.map(incident => 
-          incident.id === activeIncidentId ? 
-            { ...incident, person: fullName } : incident
+          incident.person === '' ? { ...incident, person: fullName } : incident
         );
-      }
-      return prevIncidents;
-    });
-  }, []);
+      });
+    }
+  }, [incidents, setIncidents]);
 
   const handleSubmit = useCallback(() => {
     setIsGuardianDialogOpen(true);

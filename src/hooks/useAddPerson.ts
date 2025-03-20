@@ -52,11 +52,8 @@ export const useAddPerson = ({ onPersonAdded }: UseAddPersonProps) => {
     if (firstName.trim() && lastName.trim()) {
       const fullName = `${firstName.trim()} ${lastName.trim()}`;
       
-      // Check if the field was empty
-      const isEmpty = true;
-      
       // Call the callback with the new person's name
-      onPersonAdded(fullName, isEmpty);
+      onPersonAdded(fullName);
       
       // Show confirmation toast
       toast({

@@ -48,7 +48,6 @@ const ModalsContainer = ({
     setClassGroup,
     genderOptions,
     classOptions,
-    isSubmitting,
     handleAddPerson,
     resetForm
   } = useAddPerson({ onPersonAdded: handlePersonAdded });
@@ -98,7 +97,7 @@ const ModalsContainer = ({
 
       {/* Export handleOpenGuardianDialog and handleOpenAddPersonDialog */}
       <div className="hidden">
-        {isSubmitting ? null : null /* Use isSubmitting to avoid linter warnings */}
+        {/* This empty div is just to avoid linter warnings about unused variables */}
       </div>
     </>
   );
