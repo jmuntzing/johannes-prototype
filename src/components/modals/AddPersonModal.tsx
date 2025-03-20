@@ -3,8 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { X } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface GenderOption {
@@ -66,17 +65,7 @@ const AddPersonModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <div className="absolute right-4 top-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => onOpenChange(false)}
-            className="h-6 w-6 rounded-full p-0"
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Stäng</span>
-          </Button>
-        </div>
+        <DialogTitle className="sr-only">Lägg till elev</DialogTitle>
         
         <div className="py-4">
           <h2 className="text-3xl font-medium mb-6">Lägg till elev</h2>

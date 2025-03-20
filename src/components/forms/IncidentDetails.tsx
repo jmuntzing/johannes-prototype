@@ -24,7 +24,7 @@ const IncidentDetails = ({
   locationOptions
 }: IncidentDetailsProps) => {
   return (
-    <div className="md:col-span-2 space-y-14">
+    <div className="md:col-span-2 space-y-10">
       <div>
         <h3 className="text-xl font-semibold mb-4">På vilken plats hände det?</h3>
         <Select value={location} onValueChange={setLocation}>
