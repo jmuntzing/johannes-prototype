@@ -18,7 +18,7 @@ const IncidentDescription = ({
         value={incidentDescription}
         onChange={(e) => setIncidentDescription(e.target.value)}
         placeholder='T.ex. "Under rasten på skolgården började Alex Johansson och Liam Eriksson bråka..."'
-        className="min-h-[250px]"
+        className="min-h-[350px]"
       />
     </div>
   );

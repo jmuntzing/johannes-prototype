@@ -1,5 +1,6 @@
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getIncidentDisplay } from "@/utils/incidentUtils";
 
 interface IncidentTypeSelectProps {
   value: string;
@@ -18,7 +19,7 @@ const IncidentTypeSelect = ({
       <SelectTrigger className="w-full md:w-[300px]">
         <SelectValue placeholder="utsattes för/drabbades av..." />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-h-[300px]">
         <SelectGroup>
           <SelectLabel>utsattes för...</SelectLabel>
           <SelectItem value="digitala trakasserier">digitala trakasserier</SelectItem>

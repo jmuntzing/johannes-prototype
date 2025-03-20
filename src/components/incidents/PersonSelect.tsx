@@ -1,5 +1,5 @@
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface PersonSelectProps {
   value: string;
@@ -32,9 +32,8 @@ const PersonSelect = ({
       <SelectTrigger className={width}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-h-[300px]">
         <SelectGroup>
-          <SelectLabel>Personer</SelectLabel>
           {childrenNames.map(name => (
             <SelectItem key={name} value={name}>{name}</SelectItem>
           ))}

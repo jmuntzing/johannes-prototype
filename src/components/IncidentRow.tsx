@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { isUtsattesFor } from '@/utils/incidentUtils';
+import { isUtsattesFor, getIncidentDisplay } from '@/utils/incidentUtils';
 import PersonSelect from '@/components/incidents/PersonSelect';
 import IncidentTypeSelect from '@/components/incidents/IncidentTypeSelect';
 import RowActions from '@/components/incidents/RowActions';

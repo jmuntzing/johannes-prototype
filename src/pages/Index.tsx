@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -124,6 +123,12 @@ const Index = () => {
     if (firstName.trim() && lastName.trim()) {
       const fullName = `${firstName.trim()} ${lastName.trim()}`;
       setChildrenNames([...childrenNames, fullName]);
+      
+      const activeIncidentId = incidents.find(inc => inc.person === '')?.id || 
+                               incidents[incidents.length - 1].id;
+      
+      updateIncident(activeIncidentId, 'person', fullName);
+      
       resetNewPersonForm();
       setIsAddPersonDialogOpen(false);
       toast({

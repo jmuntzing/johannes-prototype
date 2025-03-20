@@ -54,7 +54,7 @@ const AddPersonModal = ({
 }: AddPersonModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] bg-[#F1F0FB]">
+      <DialogContent className="sm:max-w-[600px]">
         <div className="absolute right-4 top-4">
           <Button 
             variant="ghost" 
@@ -68,48 +68,45 @@ const AddPersonModal = ({
         </div>
         
         <div className="py-4">
-          <h2 className="text-3xl font-bold mb-6 text-[#403E43]">Lägg till elev</h2>
+          <h2 className="text-3xl font-medium mb-6">Lägg till elev</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
-              <Label htmlFor="firstname" className="text-[#403E43] text-base">Förnamn</Label>
+              <Label htmlFor="firstname" className="text-base">Förnamn</Label>
               <Input 
                 id="firstname" 
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 placeholder="Förnamn"
-                className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="lastname" className="text-[#403E43] text-base">Efternamn</Label>
+              <Label htmlFor="lastname" className="text-base">Efternamn</Label>
               <Input 
                 id="lastname" 
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 placeholder="Efternamn"
-                className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]"
               />
             </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div className="space-y-2">
-              <Label htmlFor="personalnumber" className="text-[#403E43] text-base">Personnummer</Label>
+              <Label htmlFor="personalnumber" className="text-base">Personnummer</Label>
               <Input 
                 id="personalnumber" 
                 value={personalNumber}
                 onChange={(e) => setPersonalNumber(e.target.value)}
                 placeholder="Personnummer"
-                className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="gender" className="text-[#403E43] text-base">Kön</Label>
+              <Label htmlFor="gender" className="text-base">Kön</Label>
               <Select value={gender} onValueChange={setGender}>
-                <SelectTrigger id="gender" className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]">
+                <SelectTrigger id="gender">
                   <SelectValue placeholder="Ange kön..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -124,9 +121,9 @@ const AddPersonModal = ({
           </div>
           
           <div className="space-y-2 mb-8">
-            <Label htmlFor="class" className="text-[#403E43] text-base">Klass/grupp</Label>
+            <Label htmlFor="class" className="text-base">Klass/grupp</Label>
             <Select value={classGroup} onValueChange={setClassGroup}>
-              <SelectTrigger id="class" className="bg-white border-[#9b87f5] focus-visible:ring-[#9b87f5]">
+              <SelectTrigger id="class">
                 <SelectValue placeholder="Ange klass/grupp..." />
               </SelectTrigger>
               <SelectContent>
@@ -143,7 +140,7 @@ const AddPersonModal = ({
             <Button variant="outline" onClick={() => onOpenChange(false)} className="min-w-[120px]">
               Avbryt
             </Button>
-            <Button onClick={onAddPerson} className="min-w-[120px] bg-[#9b87f5] hover:bg-[#7b67d5]">
+            <Button onClick={onAddPerson} className="min-w-[120px]">
               Lägg till
             </Button>
           </div>
