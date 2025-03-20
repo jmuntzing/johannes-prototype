@@ -37,8 +37,8 @@ const ModalsContainer = ({
   const guardianDialogOpen = isGuardianDialogOpen !== undefined ? isGuardianDialogOpen : localGuardianDialogOpen;
   const setGuardianDialogOpen = setIsGuardianDialogOpen || setLocalGuardianDialogOpen;
 
-  // Define handlePersonAdded first as a stub to resolve the circular dependency
-  const handlePersonAddedRef = useCallback((fullName: string) => {
+  // Handle adding a person
+  const handleAddPersonCallback = useCallback((fullName: string) => {
     console.log("Person added in ModalsContainer:", fullName);
     
     // First check if the name already exists to avoid duplicates
@@ -48,9 +48,6 @@ const ModalsContainer = ({
     
     // Call the parent callback to update any active incident
     onPersonAdded(fullName);
-    
-    // Important: Reset form values after a person is added
-    resetForm();
     
     // Close the dialog
     setAddPersonDialogOpen(false);
@@ -71,10 +68,7 @@ const ModalsContainer = ({
     classOptions,
     handleAddPerson,
     resetForm
-  } = useAddPerson({ onPersonAdded: handlePersonAddedRef });
-
-  // We use the reference directly to avoid the circular dependency
-  const handlePersonAdded = handlePersonAddedRef;
+  } = useAddPerson({ onPersonAdded: handleAddPersonCallback });
 
   const handleSubmitForm = useCallback(() => {
     console.log("Submit form called in ModalsContainer");
