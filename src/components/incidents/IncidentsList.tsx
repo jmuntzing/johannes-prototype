@@ -52,7 +52,7 @@ const IncidentsList = ({
       </div>
       <button 
         onClick={addIncident}
-        className="w-full mt-4 py-3 border border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors flex items-center justify-center"
+        className="w-full mt-1 py-3 border border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors flex items-center justify-center"
       >
         <Plus className="mr-2 h-3.5 w-3.5" /> <span>Ny rad</span>
       </button>
