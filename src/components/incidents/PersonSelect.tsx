@@ -1,7 +1,6 @@
 
 import { forwardRef } from 'react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PlusCircle } from "lucide-react";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, SelectSeparator } from "@/components/ui/select";
 
 interface PersonSelectProps {
   value: string;
@@ -21,21 +20,19 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
       <SelectTrigger className="w-full md:w-[200px] text-base" ref={ref}>
         <SelectValue placeholder="Välj person..." />
       </SelectTrigger>
-      <SelectContent className="max-h-[300px]">
+      <SelectContent className="max-h-[400px]">
         <SelectGroup>
           {childrenNames.map((name) => (
             <SelectItem key={name} value={name}>
               {name}
             </SelectItem>
           ))}
+          <SelectSeparator />
           <div 
             className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-base outline-none hover:bg-accent hover:text-accent-foreground cursor-pointer" 
             onClick={onAddPerson}
           >
-            <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-              <PlusCircle className="h-4 w-4" />
-            </span>
-            <span>Lägg till person...</span>
+            <span className="font-medium">+ Lägg till elev</span>
           </div>
         </SelectGroup>
       </SelectContent>

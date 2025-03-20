@@ -121,3 +121,9 @@ input[type="date"] {
 [data-radix-select-value] {
   font-weight: 600 !important;
 }
+
+/* Ensure select content has a background and is not transparent */
+.SelectContent {
+  background-color: white !important;
+  z-index: 50 !important;
+}

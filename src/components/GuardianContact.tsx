@@ -42,17 +42,17 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
   ];
 
   return (
-    <div className="my-4 border rounded-md p-4 bg-white">
+    <div className="my-6 border rounded-md p-6 bg-white">
       {uniquePeople.length === 0 ? (
         <div className="text-center text-muted-foreground py-4">
           Ingen person har valts ännu. Lägg till personer i incidentlistan först.
         </div>
       ) : (
-        <div className="space-y-4">
-          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-2 font-medium">
-            <div>Elev</div>
-            <div>Vårdnadshavare informerad?</div>
-            <div>Kommentar</div>
+        <div className="space-y-5">
+          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 pb-2">
+            <div className="text-sm font-medium">Elev</div>
+            <div className="text-sm font-medium">Vårdnadshavare informerad?</div>
+            <div className="text-sm font-medium">Kommentar</div>
           </div>
           {uniquePeople.map(person => (
             <div key={person} className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 items-center">
@@ -64,7 +64,7 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
                   value={contactInfo[person]?.contacted || ''} 
                   onValueChange={(value) => updateContactInfo(person, 'contacted', value)}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full h-10">
                     {contactInfo[person]?.contacted ? (
                       <div className="flex items-center">
                         {contactInfo[person]?.contacted === "ja" && <Check className="mr-2 h-4 w-4" />}
@@ -94,7 +94,7 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
                   placeholder="Kommentar..."
                   value={contactInfo[person]?.comment || ''}
                   onChange={(e) => updateContactInfo(person, 'comment', e.target.value)}
-                  className="h-20"
+                  className="h-10 py-2 min-h-0 resize-none"
                 />
               </div>
             </div>

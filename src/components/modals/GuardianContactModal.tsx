@@ -18,15 +18,15 @@ const GuardianContactModal = ({
 }: GuardianContactModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[800px]">
+      <DialogContent className="sm:max-w-[900px] p-8">
         <DialogHeader>
-          <DialogTitle className="text-xl">Har vårdnadshavare informerats?</DialogTitle>
-          <p className="text-muted-foreground mt-2">
+          <DialogTitle className="text-3xl font-medium">Har vårdnadshavare informerats?</DialogTitle>
+          <p className="text-muted-foreground mt-3 mb-2">
             Innan du skickar in din anmälan, ange om vårdnadshavarna till de inblandade eleverna har informerats.
           </p>
         </DialogHeader>
         <GuardianContact people={people} />
-        <DialogFooter className="gap-2 pt-4">
+        <DialogFooter className="gap-2 pt-6">
           <Button 
             variant="outline" 
             onClick={() => onOpenChange(false)}

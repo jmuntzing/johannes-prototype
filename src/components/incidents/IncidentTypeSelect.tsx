@@ -32,7 +32,7 @@ const IncidentTypeSelect = ({
       <SelectTrigger className="w-full md:w-[300px] text-base">
         {renderTriggerContent()}
       </SelectTrigger>
-      <SelectContent className="max-h-[300px]">
+      <SelectContent className="max-h-[400px]">
         <SelectGroup>
           <SelectLabel>utsattes för...</SelectLabel>
           <SelectItem value="digitala trakasserier">digitala trakasserier</SelectItem>
