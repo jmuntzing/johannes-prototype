@@ -63,7 +63,17 @@ const AddPersonModal = ({
   }, [isOpen]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog 
+      open={isOpen} 
+      onOpenChange={(open) => {
+        try {
+          // Ensure this callback doesn't throw errors
+          onOpenChange(open);
+        } catch (error) {
+          console.error("Error in Dialog onOpenChange:", error);
+        }
+      }}
+    >
       <DialogContent className="sm:max-w-[600px] p-8">
         <DialogTitle className="text-3xl font-medium mb-6">Lägg till elev</DialogTitle>
         <DialogDescription className="sr-only">Formulär för att lägga till en ny elev</DialogDescription>
@@ -112,7 +122,7 @@ const AddPersonModal = ({
                 <SelectTrigger id="gender" className="text-base">
                   <SelectValue placeholder="Ange kön..." />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent position="popper" className="bg-white z-50">
                   {genderOptions.map(option => (
                     <SelectItem key={option.value} value={option.value} className="text-base">
                       {option.label}
@@ -129,7 +139,7 @@ const AddPersonModal = ({
               <SelectTrigger id="class" className="text-base">
                 <SelectValue placeholder="Ange klass/grupp..." />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent position="popper" className="bg-white z-50">
                 {classOptions.map(option => (
                   <SelectItem key={option.value} value={option.value} className="text-base">
                     {option.label}
@@ -143,7 +153,7 @@ const AddPersonModal = ({
             <Button 
               variant="outline" 
               onClick={() => onOpenChange(false)} 
-              className="min-w-[120px] text-base"
+              className="min-w-[120px] text-base py-6"
               type="button"
             >
               Avbryt
@@ -152,10 +162,14 @@ const AddPersonModal = ({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log("Add person button clicked");
-                onAddPerson();
+                try {
+                  console.log("Add person button clicked");
+                  onAddPerson();
+                } catch (error) {
+                  console.error("Error in onAddPerson handler:", error);
+                }
               }}
-              className="min-w-[120px] text-base"
+              className="min-w-[120px] text-base py-6"
               type="button"
             >
               Lägg till

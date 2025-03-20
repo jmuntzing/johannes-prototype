@@ -20,7 +20,7 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
       <SelectTrigger className="w-full md:w-[200px] text-base" ref={ref}>
         <SelectValue placeholder="Välj person..." />
       </SelectTrigger>
-      <SelectContent className="max-h-[400px]">
+      <SelectContent className="max-h-[400px] bg-white z-50">
         <SelectGroup>
           {childrenNames.map((name) => (
             <SelectItem key={name} value={name}>
@@ -30,7 +30,15 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
           <SelectSeparator className="bg-gray-300" />
           <div 
             className="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-2 text-base outline-none hover:bg-accent hover:text-accent-foreground cursor-pointer" 
-            onClick={onAddPerson}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              try {
+                onAddPerson();
+              } catch (error) {
+                console.error("Error in onAddPerson handler:", error);
+              }
+            }}
           >
             <span className="font-medium">+ Lägg till elev</span>
           </div>

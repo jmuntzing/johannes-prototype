@@ -37,6 +37,22 @@ export const ModalsContainer = ({
   const guardianDialogOpen = isGuardianDialogOpen !== undefined ? isGuardianDialogOpen : localGuardianDialogOpen;
   const setGuardianDialogOpen = setIsGuardianDialogOpen || setLocalGuardianDialogOpen;
 
+  // Function to be called when a person is added
+  const handlePersonAddedCallback = useCallback((name: string) => {
+    console.log("Person added in ModalsContainer:", name);
+    
+    // First check if the name already exists to avoid duplicates
+    if (!childrenNames.includes(name)) {
+      setChildrenNames([...childrenNames, name]);
+    }
+    
+    // Call the parent callback to update any active incident
+    onPersonAdded(name);
+    
+    // Close the dialog
+    setAddPersonDialogOpen(false);
+  }, [childrenNames, onPersonAdded, setAddPersonDialogOpen, setChildrenNames]);
+
   const {
     firstName,
     setFirstName,
@@ -53,20 +69,7 @@ export const ModalsContainer = ({
     handleAddPerson: addPersonHandler,
     resetForm
   } = useAddPerson({ 
-    onPersonAdded: (name) => {
-      console.log("Person added in ModalsContainer:", name);
-      
-      // First check if the name already exists to avoid duplicates
-      if (!childrenNames.includes(name)) {
-        setChildrenNames([...childrenNames, name]);
-      }
-      
-      // Call the parent callback to update any active incident
-      onPersonAdded(name);
-      
-      // Close the dialog
-      setAddPersonDialogOpen(false);
-    }
+    onPersonAdded: handlePersonAddedCallback
   });
 
   const handleSubmitForm = useCallback(() => {
@@ -75,9 +78,14 @@ export const ModalsContainer = ({
     setGuardianDialogOpen(false);
   }, [onSubmitForm, setGuardianDialogOpen]);
   
-  // Wrapper for handleAddPerson to ensure it's a stable function
+  // Explicitly bind the handler to prevent issues with event handling
   const handleAddPerson = useCallback(() => {
-    addPersonHandler();
+    // Use a try-catch to help debug any issues
+    try {
+      addPersonHandler();
+    } catch (error) {
+      console.error("Error in handleAddPerson:", error);
+    }
   }, [addPersonHandler]);
 
   return (
@@ -94,10 +102,14 @@ export const ModalsContainer = ({
       <AddPersonModal 
         isOpen={addPersonDialogOpen} 
         onOpenChange={(open) => {
-          setAddPersonDialogOpen(open);
-          if (!open) {
-            // Reset form when closing the dialog without adding
-            resetForm();
+          try {
+            setAddPersonDialogOpen(open);
+            if (!open) {
+              // Reset form when closing the dialog without adding
+              resetForm();
+            }
+          } catch (error) {
+            console.error("Error in onOpenChange handler:", error);
           }
         }}
         onAddPerson={handleAddPerson} 
