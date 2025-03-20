@@ -113,8 +113,8 @@ const Index = () => {
     <div className="container mx-auto py-10 px-4 max-w-6xl">
       <h1 className="text-3xl font-medium mb-8">Rapportera incident</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="md:col-span-2">
           <h3 className="text-xl font-semibold mb-2">Vad var det som hände?</h3>
           <Textarea 
             id="vad-hande" 
@@ -125,7 +125,7 @@ const Index = () => {
           />
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div>
             <h3 className="text-xl font-semibold mb-2">På vilken plats hände det?</h3>
             <Select value={location} onValueChange={setLocation}>
@@ -170,7 +170,7 @@ const Index = () => {
             <Plus className="mr-2 h-4 w-4" /> Lägg till ny
           </Button>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {incidents.map((incident) => (
             <IncidentRow
               key={incident.id}
