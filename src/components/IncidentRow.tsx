@@ -78,6 +78,7 @@ const IncidentRow = memo(({
               onChange={(value) => onUpdate("perpetrator", value)}
               childrenNames={childrenNames}
               onAddPerson={onAddPerson}
+              placeholder="elev..."
             />
           </div>
         </>
