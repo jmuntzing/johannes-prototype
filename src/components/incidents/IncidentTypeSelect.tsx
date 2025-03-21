@@ -12,7 +12,7 @@ const IncidentTypeSelect = ({
   onChange
 }: IncidentTypeSelectProps) => {
   const renderTriggerContent = () => {
-    if (!value) return <SelectValue placeholder="elev..." />;
+    if (!value) return <SelectValue placeholder="utsattes för/drabbades av..." />;
     
     const prefix = isUtsattesFor(value) ? 'utsattes för' : 'drabbades av';
     
