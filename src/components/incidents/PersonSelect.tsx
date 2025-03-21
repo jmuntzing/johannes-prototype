@@ -18,7 +18,7 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-full md:w-[200px] text-base" ref={ref}>
-        <SelectValue placeholder="Välj person..." />
+        <SelectValue placeholder="Elev..." />
       </SelectTrigger>
       <SelectContent className="max-h-[400px] bg-white z-50">
         <SelectGroup>
