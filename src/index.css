@@ -147,3 +147,8 @@ select,
   border-color: #555555 !important;
   border-width: 1px !important;
 }
+
+/* Darker dashed borders */
+[class*="border-dashed"] {
+  border-color: #8A898C !important;
+}
