@@ -62,6 +62,14 @@ const AddPersonModal = ({
     }
   }, [isOpen]);
 
+  // Fix for pointer-events issue after modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      // Ensure body has proper pointer events after modal closes
+      document.body.style.pointerEvents = '';
+    }
+  }, [isOpen]);
+
   return (
     <Dialog 
       open={isOpen} 
@@ -69,6 +77,13 @@ const AddPersonModal = ({
         try {
           // Ensure this callback doesn't throw errors
           onOpenChange(open);
+          
+          // Make sure pointer-events are restored when dialog closes
+          if (!open) {
+            setTimeout(() => {
+              document.body.style.pointerEvents = '';
+            }, 100);
+          }
         } catch (error) {
           console.error("Error in Dialog onOpenChange:", error);
         }
@@ -152,7 +167,13 @@ const AddPersonModal = ({
           <div className="flex justify-end gap-4">
             <Button 
               variant="outline" 
-              onClick={() => onOpenChange(false)} 
+              onClick={() => {
+                onOpenChange(false);
+                // Ensure pointer events are restored
+                setTimeout(() => {
+                  document.body.style.pointerEvents = '';
+                }, 100);
+              }}
               className="min-w-[120px] text-base py-6"
               type="button"
             >
@@ -165,6 +186,10 @@ const AddPersonModal = ({
                 try {
                   console.log("Add person button clicked");
                   onAddPerson();
+                  // Ensure pointer events are restored after adding person
+                  setTimeout(() => {
+                    document.body.style.pointerEvents = '';
+                  }, 100);
                 } catch (error) {
                   console.error("Error in onAddPerson handler:", error);
                 }

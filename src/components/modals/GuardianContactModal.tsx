@@ -1,6 +1,7 @@
 
+import { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import GuardianContact from "@/components/GuardianContact";
 
 interface GuardianContactModalProps {
@@ -16,33 +17,63 @@ const GuardianContactModal = ({
   people,
   onSubmit
 }: GuardianContactModalProps) => {
+  // Fix for pointer-events issue after modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      // Ensure body has proper pointer events after modal closes
+      document.body.style.pointerEvents = '';
+    }
+  }, [isOpen]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[900px] p-8 border-0">
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      onOpenChange(open);
+      
+      // Make sure pointer-events are restored when dialog closes
+      if (!open) {
+        setTimeout(() => {
+          document.body.style.pointerEvents = '';
+        }, 100);
+      }
+    }}>
+      <DialogContent className="sm:max-w-[900px] p-6">
         <DialogHeader>
-          <DialogTitle className="text-3xl font-medium">Har vårdnadshavare informerats?</DialogTitle>
-          <p className="text-muted-foreground mt-3 mb-2">
-            Innan du skickar in din anmälan, ange om vårdnadshavarna till de inblandade eleverna har informerats.
-          </p>
+          <DialogTitle className="text-3xl font-medium">
+            Har vårdnadshavare informerats?
+          </DialogTitle>
         </DialogHeader>
-        <GuardianContact people={people} />
-        <DialogFooter className="gap-2 pt-6">
-          <Button 
-            variant="outline" 
-            onClick={() => onOpenChange(false)}
-            className="w-36 h-14 text-base"
-            type="button"
-          >
-            Avbryt
-          </Button>
-          <Button 
-            onClick={onSubmit} 
-            className="bg-gray-600 hover:bg-gray-700 w-44 h-14 text-base"
-            type="button"
-          >
-            Skicka in anmälan
-          </Button>
-        </DialogFooter>
+        
+        <div className="mt-4">
+          <GuardianContact people={people} />
+          
+          <div className="flex justify-end gap-4 mt-6">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                onOpenChange(false);
+                // Ensure pointer events are restored
+                setTimeout(() => {
+                  document.body.style.pointerEvents = '';
+                }, 100);
+              }}
+              className="min-w-[120px]"
+            >
+              Avbryt
+            </Button>
+            <Button 
+              onClick={() => {
+                onSubmit();
+                // Ensure pointer events are restored after submit
+                setTimeout(() => {
+                  document.body.style.pointerEvents = '';
+                }, 100);
+              }}
+              className="min-w-[120px]"
+            >
+              Spara
+            </Button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
