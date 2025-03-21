@@ -29,8 +29,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 214.3 31.8% 80%;
+    --input: 214.3 31.8% 75%;
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
@@ -136,4 +136,14 @@ input[type="date"] {
 [data-radix-select-content] {
   background: white !important;
   z-index: 100 !important;
+}
+
+/* Enhanced border styles for form elements */
+input, 
+textarea, 
+select,
+[data-radix-select-trigger],
+.select-trigger {
+  border-color: #555555 !important;
+  border-width: 1px !important;
 }
