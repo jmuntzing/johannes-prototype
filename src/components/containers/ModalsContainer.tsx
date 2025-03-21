@@ -1,7 +1,6 @@
-
 import { useCallback, useState } from 'react';
 import GuardianContactModal from '@/components/modals/GuardianContactModal';
-import AddPersonModal from '@/components/modals/AddPersonModal';
+import AddPersonModal from '@/components/modals/add-person/AddPersonModal';
 import { useAddPerson } from '@/hooks/useAddPerson';
 
 interface ModalsContainerProps {
@@ -27,7 +26,6 @@ export const ModalsContainer = ({
   isGuardianDialogOpen,
   setIsGuardianDialogOpen
 }: ModalsContainerProps) => {
-  // Use either the prop state or local state for dialogs
   const [localAddPersonDialogOpen, setLocalAddPersonDialogOpen] = useState(false);
   const [localGuardianDialogOpen, setLocalGuardianDialogOpen] = useState(false);
   
@@ -37,19 +35,15 @@ export const ModalsContainer = ({
   const guardianDialogOpen = isGuardianDialogOpen !== undefined ? isGuardianDialogOpen : localGuardianDialogOpen;
   const setGuardianDialogOpen = setIsGuardianDialogOpen || setLocalGuardianDialogOpen;
 
-  // Function to be called when a person is added
   const handlePersonAddedCallback = useCallback((name: string) => {
     console.log("Person added in ModalsContainer:", name);
     
-    // First check if the name already exists to avoid duplicates
     if (!childrenNames.includes(name)) {
       setChildrenNames([...childrenNames, name]);
     }
     
-    // Call the parent callback to update any active incident
     onPersonAdded(name);
     
-    // Close the dialog
     setAddPersonDialogOpen(false);
   }, [childrenNames, onPersonAdded, setAddPersonDialogOpen, setChildrenNames]);
 
@@ -78,9 +72,7 @@ export const ModalsContainer = ({
     setGuardianDialogOpen(false);
   }, [onSubmitForm, setGuardianDialogOpen]);
   
-  // Explicitly bind the handler to prevent issues with event handling
   const handleAddPerson = useCallback(() => {
-    // Use a try-catch to help debug any issues
     try {
       addPersonHandler();
     } catch (error) {
@@ -90,7 +82,6 @@ export const ModalsContainer = ({
 
   return (
     <>
-      {/* Guardian Contact Modal */}
       <GuardianContactModal 
         isOpen={guardianDialogOpen} 
         onOpenChange={setGuardianDialogOpen} 
@@ -98,14 +89,12 @@ export const ModalsContainer = ({
         onSubmit={handleSubmitForm}
       />
 
-      {/* Add Person Modal */}
       <AddPersonModal 
         isOpen={addPersonDialogOpen} 
         onOpenChange={(open) => {
           try {
             setAddPersonDialogOpen(open);
             if (!open) {
-              // Reset form when closing the dialog without adding
               resetForm();
             }
           } catch (error) {
