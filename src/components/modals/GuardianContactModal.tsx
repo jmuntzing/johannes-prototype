@@ -21,7 +21,7 @@ const GuardianContactModal = ({
   useEffect(() => {
     if (!isOpen) {
       // Ensure body has proper pointer events after modal closes
-      document.body.style.pointerEvents = '';
+      document.body.style.pointerEvents = 'auto';
     }
   }, [isOpen]);
 
@@ -32,7 +32,7 @@ const GuardianContactModal = ({
       // Make sure pointer-events are restored when dialog closes
       if (!open) {
         setTimeout(() => {
-          document.body.style.pointerEvents = '';
+          document.body.style.pointerEvents = 'auto';
         }, 100);
       }
     }}>
@@ -56,7 +56,7 @@ const GuardianContactModal = ({
                 onOpenChange(false);
                 // Ensure pointer events are restored
                 setTimeout(() => {
-                  document.body.style.pointerEvents = '';
+                  document.body.style.pointerEvents = 'auto';
                 }, 100);
               }}
               className="min-w-[120px]"
@@ -68,7 +68,7 @@ const GuardianContactModal = ({
                 onSubmit();
                 // Ensure pointer events are restored after submit
                 setTimeout(() => {
-                  document.body.style.pointerEvents = '';
+                  document.body.style.pointerEvents = 'auto';
                 }, 100);
               }}
               className="min-w-[120px]"

@@ -66,7 +66,7 @@ const AddPersonModal = ({
   useEffect(() => {
     if (!isOpen) {
       // Ensure body has proper pointer events after modal closes
-      document.body.style.pointerEvents = '';
+      document.body.style.pointerEvents = 'auto';
     }
   }, [isOpen]);
 
@@ -81,7 +81,7 @@ const AddPersonModal = ({
           // Make sure pointer-events are restored when dialog closes
           if (!open) {
             setTimeout(() => {
-              document.body.style.pointerEvents = '';
+              document.body.style.pointerEvents = 'auto';
             }, 100);
           }
         } catch (error) {
@@ -171,7 +171,7 @@ const AddPersonModal = ({
                 onOpenChange(false);
                 // Ensure pointer events are restored
                 setTimeout(() => {
-                  document.body.style.pointerEvents = '';
+                  document.body.style.pointerEvents = 'auto';
                 }, 100);
               }}
               className="min-w-[120px] text-base py-6"
@@ -188,7 +188,7 @@ const AddPersonModal = ({
                   onAddPerson();
                   // Ensure pointer events are restored after adding person
                   setTimeout(() => {
-                    document.body.style.pointerEvents = '';
+                    document.body.style.pointerEvents = 'auto';
                   }, 100);
                 } catch (error) {
                   console.error("Error in onAddPerson handler:", error);
