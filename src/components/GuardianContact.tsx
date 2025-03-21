@@ -49,14 +49,14 @@ const GuardianContact = ({ people }: GuardianContactProps) => {
         </div>
       ) : (
         <div className="space-y-1">
-          <div className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 mb-1">
+          <div className="grid grid-cols-[0.8fr,1.2fr,2fr] gap-4 mb-1">
             <div className="text-sm font-medium">Elev</div>
             <div className="text-sm font-medium">Vårdnadshavare informerad?</div>
             <div className="text-sm font-medium">Kommentar</div>
           </div>
           <Separator className="mb-2" />
           {uniquePeople.map(person => (
-            <div key={person} className="grid grid-cols-[1fr,1.5fr,1.5fr] gap-4 items-center mb-2">
+            <div key={person} className="grid grid-cols-[0.8fr,1.2fr,2fr] gap-4 items-center mb-4">
               <div className="font-medium">
                 {person}
               </div>
