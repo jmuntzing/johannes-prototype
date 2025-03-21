@@ -18,7 +18,7 @@ const GuardianContactModal = ({
 }: GuardianContactModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[1200px] p-8 border-0">
+      <DialogContent className="sm:max-w-[900px] p-8 border-0">
         <DialogHeader>
           <DialogTitle className="text-3xl font-medium">Har vårdnadshavare informerats?</DialogTitle>
           <p className="text-muted-foreground mt-3 mb-2">
