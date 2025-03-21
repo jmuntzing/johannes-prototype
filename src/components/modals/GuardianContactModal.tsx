@@ -41,6 +41,9 @@ const GuardianContactModal = ({
           <DialogTitle className="text-3xl font-medium">
             Har vårdnadshavare informerats?
           </DialogTitle>
+          <p className="text-muted-foreground mt-2">
+            Innan du skickar in din anmälan, ange om vårdnadshavarna till de inblandade eleverna har informerats.
+          </p>
         </DialogHeader>
         
         <div className="mt-4">
