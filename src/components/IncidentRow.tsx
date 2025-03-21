@@ -48,8 +48,8 @@ const IncidentRow = memo(({
   }, [autoFocus]);
 
   return (
-    <div className="p-0 py-2 bg-gray-50 rounded-lg flex flex-wrap md:flex-nowrap items-center gap-3">
-      <div className="w-full md:w-auto px-3">
+    <div className="p-0 py-2 bg-gray-50 rounded-lg flex flex-wrap md:flex-nowrap items-center gap-2">
+      <div className="w-full md:w-auto">
         <PersonSelect
           value={incident.person}
           onChange={(value) => onUpdate("person", value)}
@@ -59,7 +59,7 @@ const IncidentRow = memo(({
         />
       </div>
 
-      <div className="w-full md:w-auto px-3">
+      <div className="w-full md:w-auto">
         <IncidentTypeSelect
           value={incident.incident}
           onChange={(value) => onUpdate("incident", value)}
@@ -68,11 +68,11 @@ const IncidentRow = memo(({
 
       {showPerpetrator && (
         <>
-          <div className="flex items-center px-3">
-            <span className="mx-2">av</span>
+          <div className="flex items-center">
+            <span className="mx-1">av</span>
           </div>
 
-          <div className="w-full md:w-auto px-3">
+          <div className="w-full md:w-auto">
             <PersonSelect
               value={incident.perpetrator}
               onChange={(value) => onUpdate("perpetrator", value)}
