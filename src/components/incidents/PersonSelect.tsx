@@ -42,7 +42,7 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
               }
             }}
           >
-            <span className="font-medium">+ Lägg till person</span>
+            <span className="font-medium">+ Lägg till elev</span>
           </div>
         </SelectGroup>
       </SelectContent>

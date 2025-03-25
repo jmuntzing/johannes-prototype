@@ -52,19 +52,11 @@ const IncidentRow = memo(({
         />
       </div>
 
-      <div className="flex items-center">
-        <span className="mx-1">utsattes för</span>
-      </div>
-
       <div className="w-full md:w-auto">
         <IncidentTypeSelect
           value={incident.incident}
           onChange={(value) => onUpdate("incident", value)}
         />
-      </div>
-
-      <div className="flex items-center">
-        <span className="mx-1">av</span>
       </div>
 
       <div className="w-full md:w-auto">

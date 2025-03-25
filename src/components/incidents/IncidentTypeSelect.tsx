@@ -12,7 +12,7 @@ const IncidentTypeSelect = ({
   onChange
 }: IncidentTypeSelectProps) => {
   const renderTriggerContent = () => {
-    if (!value) return <SelectValue placeholder="kränkning ..." />;
+    if (!value) return <SelectValue placeholder="utsattes för/drabbades av..." />;
     
     return (
       <div className="flex items-center">
