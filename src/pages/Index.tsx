@@ -1,13 +1,12 @@
-
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useIncidentForm } from '@/hooks/useIncidentForm';
 import IncidentForm from '@/components/forms/IncidentForm';
 import { ModalsContainer } from '@/components/containers/ModalsContainer';
 
 const Index = () => {
+  const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
   const {
     incidents,
-    setIncidents,
     incidentDescription,
     setIncidentDescription,
     location,
@@ -25,34 +24,9 @@ const Index = () => {
     submitForm
   } = useIncidentForm();
 
-  const [isAddPersonDialogOpen, setIsAddPersonDialogOpen] = useState(false);
-
-  // Function to handle adding a person with updating an incident
-  const handlePersonAdded = useCallback((fullName: string) => {
-    console.log("Person added:", fullName);
-    
-    // Find the first incident with an empty person field
-    const emptyIncidentIndex = incidents.findIndex(inc => inc.person === '');
-    
-    if (emptyIncidentIndex !== -1) {
-      // Update that incident
-      const updatedIncidents = [...incidents];
-      updatedIncidents[emptyIncidentIndex] = {
-        ...updatedIncidents[emptyIncidentIndex],
-        person: fullName
-      };
-      setIncidents(updatedIncidents);
-    }
-    
-    // Close the dialog
-    setIsAddPersonDialogOpen(false);
-  }, [incidents, setIncidents]);
-
-  const handleSubmit = useCallback(() => {
-    console.log("Submit button clicked");
-    // We don't need to open the modal anymore
-    // The navigation will happen in the IncidentForm component
-  }, []);
+  const handleAddPerson = (name: string) => {
+    console.log("Person added:", name);
+  };
 
   return (
     <>
@@ -71,19 +45,16 @@ const Index = () => {
         removeIncident={removeIncident}
         duplicateIncident={duplicateIncident}
         swapRoles={swapRoles}
-        onOpenAddPersonDialog={() => {
-          console.log("Opening add person dialog");
-          setIsAddPersonDialogOpen(true);
-        }}
-        onSubmit={handleSubmit}
+        onOpenAddPersonDialog={() => setIsAddPersonDialogOpen(true)}
+        onSubmit={submitForm}
       />
-
+      
       <ModalsContainer
-        people={incidents.map(i => [i.person, i.perpetrator]).flat().filter(p => p && p.length > 0).filter((v, i, a) => a.indexOf(v) === i)}
+        people={incidents.map(i => i.person).filter(Boolean)}
         childrenNames={childrenNames}
         setChildrenNames={setChildrenNames}
-        onPersonAdded={handlePersonAdded}
-        onSubmitForm={submitForm}
+        onPersonAdded={handleAddPerson}
+        onSubmitForm={() => {}}
         isAddPersonDialogOpen={isAddPersonDialogOpen}
         setIsAddPersonDialogOpen={setIsAddPersonDialogOpen}
       />

@@ -75,12 +75,14 @@ const IncidentForm = memo(({
     onSubmit();
   };
 
-  return <div className="container mx-auto py-12 px-4 max-w-6xl">
-      <h1 className="text-3xl font-medium mb-8">Anmäl incident</h1>
+  return (
+    <div className="container mx-auto py-12 px-4 max-w-6xl">
+      <h1 className="text-3xl font-medium mb-8">
+        Anmäl kränkning <span className="text-gray-500 font-normal">(1/2)</span>
+      </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-5 gap-14 mb-8">
         <IncidentDescription incidentDescription={incidentDescription} setIncidentDescription={setIncidentDescription} />
-
         <IncidentDetails location={location} setLocation={setLocation} date={date} setDate={setDate} locationOptions={locationOptions} />
       </div>
 
@@ -89,7 +91,8 @@ const IncidentForm = memo(({
       <div className="flex justify-end mt-8">
         <Button onClick={handleContinue} size="lg" className="text-lg py-px" type="button">Fortsätt &gt;</Button>
       </div>
-    </div>;
+    </div>
+  );
 });
 
 IncidentForm.displayName = 'IncidentForm';
