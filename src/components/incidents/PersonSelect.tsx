@@ -15,7 +15,7 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
   onChange,
   childrenNames,
   onAddPerson,
-  placeholder = "Elev..."
+  placeholder = "Person..."
 }, ref) => {
   return (
     <Select value={value} onValueChange={onChange}>
@@ -42,7 +42,7 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
               }
             }}
           >
-            <span className="font-medium">+ Lägg till elev</span>
+            <span className="font-medium">+ Lägg till person</span>
           </div>
         </SelectGroup>
       </SelectContent>

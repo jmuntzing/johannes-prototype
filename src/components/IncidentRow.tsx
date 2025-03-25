@@ -31,14 +31,7 @@ const IncidentRow = memo(({
   onAddPerson,
   autoFocus = false
 }: IncidentRowProps) => {
-  const [showPerpetrator, setShowPerpetrator] = useState(false);
   const personSelectRef = useRef<HTMLButtonElement>(null);
-
-  // Check if the incident requires a perpetrator when the component mounts or when incident changes
-  useEffect(() => {
-    const requiresPerpetrator = isUtsattesFor(incident.incident);
-    setShowPerpetrator(requiresPerpetrator);
-  }, [incident.incident]);
 
   // Set focus to the first field on mount if autoFocus is true
   useEffect(() => {
@@ -59,6 +52,10 @@ const IncidentRow = memo(({
         />
       </div>
 
+      <div className="flex items-center">
+        <span className="mx-1">utsattes för</span>
+      </div>
+
       <div className="w-full md:w-auto">
         <IncidentTypeSelect
           value={incident.incident}
@@ -66,26 +63,22 @@ const IncidentRow = memo(({
         />
       </div>
 
-      {showPerpetrator && (
-        <>
-          <div className="flex items-center">
-            <span className="mx-1">av</span>
-          </div>
+      <div className="flex items-center">
+        <span className="mx-1">av</span>
+      </div>
 
-          <div className="w-full md:w-auto">
-            <PersonSelect
-              value={incident.perpetrator}
-              onChange={(value) => onUpdate("perpetrator", value)}
-              childrenNames={childrenNames}
-              onAddPerson={onAddPerson}
-              placeholder="elev..."
-            />
-          </div>
-        </>
-      )}
+      <div className="w-full md:w-auto">
+        <PersonSelect
+          value={incident.perpetrator}
+          onChange={(value) => onUpdate("perpetrator", value)}
+          childrenNames={childrenNames}
+          onAddPerson={onAddPerson}
+          placeholder="Person..."
+        />
+      </div>
 
       <RowActions
-        showSwap={showPerpetrator && !!incident.perpetrator}
+        showSwap={!!incident.perpetrator}
         onSwap={onSwap}
         onDuplicate={onDuplicate}
         onRemove={onRemove}

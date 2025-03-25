@@ -136,6 +136,7 @@ input[type="date"] {
 [data-radix-select-content] {
   background: white !important;
   z-index: 100 !important;
+  max-height: 400px !important;
 }
 
 /* Enhanced border styles for form elements */
@@ -151,4 +152,13 @@ select,
 /* Darker dashed borders */
 [class*="border-dashed"] {
   border-color: #8A898C !important;
+}
+
+/* Increase the height of dropdown menus */
+[data-radix-select-viewport] {
+  max-height: 400px !important;
+}
+
+[data-radix-popper-content] {
+  max-height: 400px !important;
 }

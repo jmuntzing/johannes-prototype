@@ -11,10 +11,5 @@ export const isUtsattesFor = (value: string): boolean => {
 
 export const getIncidentDisplay = (value: string): string => {
   if (!value) return '';
-  
-  if (isUtsattesFor(value)) {
-    return `utsattes för ${value}`;
-  } else {
-    return `drabbades av ${value}`;
-  }
+  return value;
 };

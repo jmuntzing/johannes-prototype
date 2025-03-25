@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { getIncidentDisplay, isUtsattesFor } from '@/utils/incidentUtils';
+import { isUtsattesFor } from '@/utils/incidentUtils';
 import { toast } from "@/hooks/use-toast";
 import { Incident } from '@/hooks/useIncidentForm';
 import { ArrowLeft } from 'lucide-react';
@@ -30,6 +30,7 @@ interface PersonOption {
 interface InjuryIncident {
   person: string;
   incident: string;
+  perpetrator?: string;
 }
 
 const injuryOutcomeOptions = [
@@ -78,14 +79,14 @@ const ConfirmIncident = () => {
       // Find injury incidents
       const incidents = (location.state as ConfirmationState).formState.incidents || [];
       
-      // Find all injury incidents (not "utsattes för")
+      // Find all injury incidents 
       const injuries = incidents.filter(inc => 
         inc.incident && 
-        inc.person && 
-        !isUtsattesFor(inc.incident)
+        inc.person
       ).map(inc => ({
         person: inc.person,
-        incident: inc.incident
+        incident: inc.incident,
+        perpetrator: inc.perpetrator
       }));
       
       setInjuryIncidents(injuries);
@@ -119,9 +120,9 @@ const ConfirmIncident = () => {
     // Find all incidents where this person was the victim
     const incidents = state.formState.incidents;
     
-    // Get all "utsattes för" incidents for this person
+    // Get all incidents for this person with perpetrator information
     const assaultIncidents = incidents
-      .filter(inc => inc.person === person && inc.incident && isUtsattesFor(inc.incident))
+      .filter(inc => inc.person === person && inc.incident)
       .map(inc => {
         // Include the perpetrator name in the display
         if (inc.perpetrator) {
@@ -232,7 +233,7 @@ const ConfirmIncident = () => {
         {injuryIncidents.map((injury) => (
           <div key={`cause-${injury.person}-${injury.incident}`}>
             <h2 className="text-xl font-semibold mb-4">
-              Vad orsakade skadan "{injury.person} drabbades av {injury.incident}"?
+              Vad orsakade skadan "{injury.person} {injury.incident}"?
             </h2>
             <RadioGroup 
               value={injuryCauseMap[injury.person]} 

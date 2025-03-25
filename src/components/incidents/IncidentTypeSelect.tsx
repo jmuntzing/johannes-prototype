@@ -12,13 +12,10 @@ const IncidentTypeSelect = ({
   onChange
 }: IncidentTypeSelectProps) => {
   const renderTriggerContent = () => {
-    if (!value) return <SelectValue placeholder="utsattes för/drabbades av..." />;
-    
-    const prefix = isUtsattesFor(value) ? 'utsattes för' : 'drabbades av';
+    if (!value) return <SelectValue placeholder="kränkning ..." />;
     
     return (
       <div className="flex items-center">
-        <span className="mr-1">{prefix}</span>
         <span className="font-semibold">{value}</span>
       </div>
     );
@@ -34,7 +31,6 @@ const IncidentTypeSelect = ({
       </SelectTrigger>
       <SelectContent className="max-h-[400px]">
         <SelectGroup>
-          <SelectLabel className="text-muted-foreground">utsattes för...</SelectLabel>
           <SelectItem value="digitala trakasserier" className="pl-10">digitala trakasserier</SelectItem>
           <SelectItem value="elaka kommentarer" className="pl-10">elaka kommentarer</SelectItem>
           <SelectItem value="fysiska hot" className="pl-10">fysiska hot</SelectItem>
@@ -50,22 +46,6 @@ const IncidentTypeSelect = ({
           <SelectItem value="spridning av kränkande material" className="pl-10">spridning av kränkande material</SelectItem>
           <SelectItem value="social exkludering" className="pl-10">social exkludering</SelectItem>
           <SelectItem value="verbala hot" className="pl-10">verbala hot</SelectItem>
-        </SelectGroup>
-        <SelectGroup>
-          <SelectLabel className="text-muted-foreground">drabbades av...</SelectLabel>
-          <SelectItem value="blåmärken" className="pl-10">blåmärken</SelectItem>
-          <SelectItem value="frakturer" className="pl-10">frakturer</SelectItem>
-          <SelectItem value="förlust av medvetande" className="pl-10">förlust av medvetande</SelectItem>
-          <SelectItem value="hjärnskakning" className="pl-10">hjärnskakning</SelectItem>
-          <SelectItem value="huvudvärk" className="pl-10">huvudvärk</SelectItem>
-          <SelectItem value="hudrodnad" className="pl-10">hudrodnad</SelectItem>
-          <SelectItem value="illamående" className="pl-10">illamående</SelectItem>
-          <SelectItem value="näsblod" className="pl-10">näsblod</SelectItem>
-          <SelectItem value="skrubbsår" className="pl-10">skrubbsår</SelectItem>
-          <SelectItem value="skador på kläder eller ägodelar" className="pl-10">skador på kläder eller ägodelar</SelectItem>
-          <SelectItem value="skärsår" className="pl-10">skärsår</SelectItem>
-          <SelectItem value="svullnad" className="pl-10">svullnad</SelectItem>
-          <SelectItem value="tand- eller munskador" className="pl-10">tand- eller munskador</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
