@@ -1,9 +1,12 @@
+
 import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import IncidentDescription from '@/components/forms/IncidentDescription';
 import IncidentDetails from '@/components/forms/IncidentDetails';
 import IncidentsList from '@/components/incidents/IncidentsList';
 import { Incident } from '@/hooks/useIncidentForm';
+
 interface IncidentFormProps {
   incidents: Incident[];
   incidentDescription: string;
@@ -25,6 +28,7 @@ interface IncidentFormProps {
   onOpenAddPersonDialog: () => void;
   onSubmit: () => void;
 }
+
 const IncidentForm = memo(({
   incidents,
   incidentDescription,
@@ -43,6 +47,34 @@ const IncidentForm = memo(({
   onOpenAddPersonDialog,
   onSubmit
 }: IncidentFormProps) => {
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    console.log("Submit button clicked in IncidentForm");
+    
+    // Collect all people involved in incidents
+    const involvedPeople = incidents
+      .map(i => [i.person, i.perpetrator])
+      .flat()
+      .filter(p => p && p.length > 0);
+    
+    // Navigate to confirmation page with the form state
+    navigate('/confirm', {
+      state: {
+        formState: {
+          incidents,
+          incidentDescription,
+          location,
+          date
+        },
+        people: involvedPeople
+      }
+    });
+    
+    // Still call the original onSubmit in case other code depends on it
+    onSubmit();
+  };
+
   return <div className="container mx-auto py-12 px-4 max-w-6xl">
       <h1 className="text-3xl font-medium mb-8">Anmäl incident</h1>
       
@@ -55,12 +87,10 @@ const IncidentForm = memo(({
       <IncidentsList incidents={incidents} childrenNames={childrenNames} addIncident={addIncident} updateIncident={updateIncident} removeIncident={removeIncident} duplicateIncident={duplicateIncident} swapRoles={swapRoles} onAddPerson={onOpenAddPersonDialog} />
 
       <div className="flex justify-end mt-8">
-        <Button onClick={() => {
-        console.log("Submit button clicked in IncidentForm");
-        onSubmit();
-      }} size="lg" className="text-lg py-px" type="button">Fortsätt &gt;</Button>
+        <Button onClick={handleContinue} size="lg" className="text-lg py-px" type="button">Fortsätt &gt;</Button>
       </div>
     </div>;
 });
+
 IncidentForm.displayName = 'IncidentForm';
 export default IncidentForm;

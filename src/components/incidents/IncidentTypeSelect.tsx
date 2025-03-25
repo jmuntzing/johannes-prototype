@@ -53,27 +53,19 @@ const IncidentTypeSelect = ({
         </SelectGroup>
         <SelectGroup>
           <SelectLabel className="text-muted-foreground">drabbades av...</SelectLabel>
-          <SelectItem value="allergisk reaktion" className="pl-10">allergisk reaktion</SelectItem>
           <SelectItem value="blåmärken" className="pl-10">blåmärken</SelectItem>
-          <SelectItem value="brännskada" className="pl-10">brännskada</SelectItem>
-          <SelectItem value="föremål i ögat" className="pl-10">föremål i ögat</SelectItem>
-          <SelectItem value="fästingbett" className="pl-10">fästingbett</SelectItem>
-          <SelectItem value="fraktur benbrott" className="pl-10">fraktur (benbrott)</SelectItem>
-          <SelectItem value="fysiska överbelastningsskador" className="pl-10">fysiska överbelastningsskador</SelectItem>
-          <SelectItem value="förstoring av stukning" className="pl-10">förstoring av stukning</SelectItem>
+          <SelectItem value="frakturer" className="pl-10">frakturer</SelectItem>
+          <SelectItem value="förlust av medvetande" className="pl-10">förlust av medvetande</SelectItem>
           <SelectItem value="hjärnskakning" className="pl-10">hjärnskakning</SelectItem>
-          <SelectItem value="insektsbett" className="pl-10">insektsbett</SelectItem>
-          <SelectItem value="klämskada" className="pl-10">klämskada</SelectItem>
-          <SelectItem value="köldskada" className="pl-10">köldskada</SelectItem>
+          <SelectItem value="huvudvärk" className="pl-10">huvudvärk</SelectItem>
+          <SelectItem value="hudrodnad" className="pl-10">hudrodnad</SelectItem>
+          <SelectItem value="illamående" className="pl-10">illamående</SelectItem>
           <SelectItem value="näsblod" className="pl-10">näsblod</SelectItem>
-          <SelectItem value="skärsår" className="pl-10">skärsår</SelectItem>
           <SelectItem value="skrubbsår" className="pl-10">skrubbsår</SelectItem>
-          <SelectItem value="slagskada" className="pl-10">slagskada</SelectItem>
-          <SelectItem value="sticksår" className="pl-10">sticksår</SelectItem>
-          <SelectItem value="stukning" className="pl-10">stukning</SelectItem>
-          <SelectItem value="sträckning" className="pl-10">sträckning</SelectItem>
-          <SelectItem value="tandskada" className="pl-10">tandskada</SelectItem>
-          <SelectItem value="vridskada" className="pl-10">vridskada</SelectItem>
+          <SelectItem value="skador på kläder eller ägodelar" className="pl-10">skador på kläder eller ägodelar</SelectItem>
+          <SelectItem value="skärsår" className="pl-10">skärsår</SelectItem>
+          <SelectItem value="svullnad" className="pl-10">svullnad</SelectItem>
+          <SelectItem value="tand- eller munskador" className="pl-10">tand- eller munskador</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

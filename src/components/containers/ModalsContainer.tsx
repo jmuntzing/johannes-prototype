@@ -1,5 +1,5 @@
+
 import { useCallback, useState } from 'react';
-import GuardianContactModal from '@/components/modals/GuardianContactModal';
 import AddPersonModal from '@/components/modals/add-person/AddPersonModal';
 import { useAddPerson } from '@/hooks/useAddPerson';
 
@@ -11,8 +11,6 @@ interface ModalsContainerProps {
   onSubmitForm: () => void;
   isAddPersonDialogOpen?: boolean;
   setIsAddPersonDialogOpen?: (open: boolean) => void;
-  isGuardianDialogOpen?: boolean;
-  setIsGuardianDialogOpen?: (open: boolean) => void;
 }
 
 export const ModalsContainer = ({
@@ -22,18 +20,12 @@ export const ModalsContainer = ({
   onPersonAdded,
   onSubmitForm,
   isAddPersonDialogOpen,
-  setIsAddPersonDialogOpen,
-  isGuardianDialogOpen,
-  setIsGuardianDialogOpen
+  setIsAddPersonDialogOpen
 }: ModalsContainerProps) => {
   const [localAddPersonDialogOpen, setLocalAddPersonDialogOpen] = useState(false);
-  const [localGuardianDialogOpen, setLocalGuardianDialogOpen] = useState(false);
   
   const addPersonDialogOpen = isAddPersonDialogOpen !== undefined ? isAddPersonDialogOpen : localAddPersonDialogOpen;
   const setAddPersonDialogOpen = setIsAddPersonDialogOpen || setLocalAddPersonDialogOpen;
-  
-  const guardianDialogOpen = isGuardianDialogOpen !== undefined ? isGuardianDialogOpen : localGuardianDialogOpen;
-  const setGuardianDialogOpen = setIsGuardianDialogOpen || setLocalGuardianDialogOpen;
 
   const handlePersonAddedCallback = useCallback((name: string) => {
     console.log("Person added in ModalsContainer:", name);
@@ -65,12 +57,6 @@ export const ModalsContainer = ({
   } = useAddPerson({ 
     onPersonAdded: handlePersonAddedCallback
   });
-
-  const handleSubmitForm = useCallback(() => {
-    console.log("Submit form called in ModalsContainer");
-    onSubmitForm();
-    setGuardianDialogOpen(false);
-  }, [onSubmitForm, setGuardianDialogOpen]);
   
   const handleAddPerson = useCallback(() => {
     try {
@@ -82,13 +68,6 @@ export const ModalsContainer = ({
 
   return (
     <>
-      <GuardianContactModal 
-        isOpen={guardianDialogOpen} 
-        onOpenChange={setGuardianDialogOpen} 
-        people={people} 
-        onSubmit={handleSubmitForm}
-      />
-
       <AddPersonModal 
         isOpen={addPersonDialogOpen} 
         onOpenChange={(open) => {
