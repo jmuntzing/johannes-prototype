@@ -61,7 +61,8 @@ const ConfirmIncident = () => {
       
       const options: PersonOption[] = uniquePeople.map(person => ({
         id: person.replace(/\s+/g, '-').toLowerCase(),
-        label: `${person}s vårdnadshavare`,
+        // Fix genitive form for names ending with 's'
+        label: `${person}${person.endsWith('s') ? '' : 's'} vårdnadshavare`,
         checked: false
       }));
       
@@ -121,11 +122,25 @@ const ConfirmIncident = () => {
     // Get all "utsattes för" incidents for this person
     const assaultIncidents = incidents
       .filter(inc => inc.person === person && inc.incident && isUtsattesFor(inc.incident))
-      .map(inc => `Utsattes för ${inc.incident}`);
+      .map(inc => {
+        // Include the perpetrator name in the display
+        if (inc.perpetrator) {
+          return `Utsattes för ${inc.incident} av ${inc.perpetrator}`;
+        }
+        return `Utsattes för ${inc.incident}`;
+      });
     
     // If we have assault incidents, return them plus additional options
     if (assaultIncidents.length > 0) {
-      return [...assaultIncidents, "Kombination av ovanstående", "Vet ej"];
+      const options = [...assaultIncidents];
+      
+      // Only add "Kombination av ovanstående" if there's more than one cause
+      if (assaultIncidents.length > 1) {
+        options.push("Kombination av ovanstående");
+      }
+      
+      options.push("Vet ej");
+      return options;
     }
     
     // If no assault incidents, return generic options
@@ -204,7 +219,7 @@ const ConfirmIncident = () => {
                 />
                 <label
                   htmlFor={option.id}
-                  className="text-base leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-base font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {option.label}
                 </label>
@@ -233,7 +248,7 @@ const ConfirmIncident = () => {
                     />
                     <label
                       htmlFor={`${injury.person}-${cause}`.replace(/\s+/g, '-').toLowerCase()}
-                      className="text-base leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      className="text-base font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                       {cause}
                     </label>
