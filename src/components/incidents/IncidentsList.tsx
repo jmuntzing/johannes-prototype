@@ -1,15 +1,12 @@
-
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import IncidentRow from "@/components/IncidentRow";
-
 interface Incident {
   id: number;
   person: string;
   incident: string;
   perpetrator: string;
 }
-
 interface IncidentsListProps {
   incidents: Incident[];
   childrenNames: string[];
@@ -20,7 +17,6 @@ interface IncidentsListProps {
   swapRoles: (id: number) => void;
   onAddPerson: () => void;
 }
-
 const IncidentsList = ({
   incidents,
   childrenNames,
@@ -31,33 +27,16 @@ const IncidentsList = ({
   swapRoles,
   onAddPerson
 }: IncidentsListProps) => {
-  return (
-    <div className="mb-8">
+  return <div className="mb-8">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-xl font-semibold">Vem utsattes för/drabbades av vad?</h3>
+        <h3 className="text-xl font-semibold">Vem utsattes för vad av vem?</h3>
       </div>
       <div className="space-y-0.5">
-        {incidents.map((incident) => (
-          <IncidentRow
-            key={incident.id}
-            incident={incident}
-            childrenNames={childrenNames}
-            onUpdate={(field, value) => updateIncident(incident.id, field, value)}
-            onRemove={() => removeIncident(incident.id)}
-            onDuplicate={() => duplicateIncident(incident.id)}
-            onSwap={() => swapRoles(incident.id)}
-            onAddPerson={onAddPerson}
-          />
-        ))}
+        {incidents.map(incident => <IncidentRow key={incident.id} incident={incident} childrenNames={childrenNames} onUpdate={(field, value) => updateIncident(incident.id, field, value)} onRemove={() => removeIncident(incident.id)} onDuplicate={() => duplicateIncident(incident.id)} onSwap={() => swapRoles(incident.id)} onAddPerson={onAddPerson} />)}
       </div>
-      <button 
-        onClick={addIncident}
-        className="w-full mt-1 py-3 border border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors flex items-center justify-center"
-      >
+      <button onClick={addIncident} className="w-full mt-1 py-3 border border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors flex items-center justify-center">
         <Plus className="mr-2 h-3.5 w-3.5" /> <span>Ny rad</span>
       </button>
-    </div>
-  );
+    </div>;
 };
-
 export default IncidentsList;
