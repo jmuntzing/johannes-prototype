@@ -15,7 +15,7 @@ const PersonSelect = forwardRef<HTMLButtonElement, PersonSelectProps>(({
   onChange,
   childrenNames,
   onAddPerson,
-  placeholder = "Person..."
+  placeholder = "Välj elev..."
 }, ref) => {
   return (
     <Select value={value} onValueChange={onChange}>
