@@ -60,13 +60,17 @@ const IncidentRow = memo(({
         />
       </div>
 
+      <div className="flex items-center">
+        <span className="mx-1 text-base font-medium">av</span>
+      </div>
+
       <div className="w-full md:w-auto">
         <PersonSelect
           value={incident.perpetrator}
           onChange={(value) => onUpdate("perpetrator", value)}
           childrenNames={childrenNames}
           onAddPerson={onAddPerson}
-          placeholder="Välj person..."
+          placeholder="välj person..."
         />
       </div>
 
